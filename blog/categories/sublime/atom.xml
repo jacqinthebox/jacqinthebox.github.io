@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: sublime | Weblog van Jacqueline P.]]></title>
+  <link href="http://jacqinthebox.github.io/blog/categories/sublime/atom.xml" rel="self"/>
+  <link href="http://jacqinthebox.github.io/"/>
+  <updated>2015-11-13T13:01:08+01:00</updated>
+  <id>http://jacqinthebox.github.io/</id>
+  <author>
+    <name><![CDATA[Jacqueline]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Disclaimer voor nieuw weblog]]></title>
+    <link href="http://jacqinthebox.github.io/blog/2013/05/02/werkelijk-nog-geen-enkel-idee-hoe-dit-werkt/"/>
+    <updated>2013-05-02T21:04:00+02:00</updated>
+    <id>http://jacqinthebox.github.io/blog/2013/05/02/werkelijk-nog-geen-enkel-idee-hoe-dit-werkt</id>
+    <content type="html"><![CDATA[<p>Mijn weblog werd voorheen gehost door <a href="http://posterous.com/">Posterous</a>, maar deze dienst is opgehouden te bestaan. Helaas. Wat nu? De zoekmachine bracht mij bij <a href="http://octopress.org/">Octopress</a>.</p>
+
+<p><img src="http://www.peterprovost.org/images/blog/2012-04-15-switching-the-blog-to-octopress/octopress-logo.png" alt="Octopress logo" /></p>
+
+<p>Octopress heet niet voor niets 'a blogging framework for hackers'. Om te beginnen is het noodzakelijk dat je <a href="http://rubyonrails.org/">Ruby on Rails</a> op je machine hebt draaien. Vervolgens kun de site met <a href="https://github.com/">Git</a> publishen naar <a href="httpd://www.heroku.com/">Heroku</a>, maar dit kan ook naar Dropbox of Github zelf.</p>
+
+<p>Daarna is het een kwestie van.. editen van tekstbestanden, zoals ik nu deze post zit te kloppen in <a href="http://www.sublimetext.com">Sublime Text</a> in <a href="http://daringfireball.net/projects/markdown/">Markdown</a>.</p>
+
+<p>Helaas is het alleen maar mogelijk te posten vanaf deze laptop. Dat is wel minder, even vanaf een andere werkplek een update schrijven zit er dus niet in.</p>
+
+<p>Last but not least: ik heb de layout gebruikt van <a href="https://github.com/bijumon/oct2">oct2</a>. Design is namelijk niet mijn sterkste kant.</p>
+
+<p>Kortom, zonder al deze resources zou je nu dit weblog niet aan het lezen zijn.
+Ik zeg dan ook: "Hulde aan ieder dit mogelijk heeft gemaakt en driewerf hoera voor Open Source."</p>
+
+<p>En dat allemaal op deze <a href="http://taalprof.blogspot.nl/2013/04/de-zin-die-we-vermoeden-dat-fout-is.html/">dag die ik wist dat zou komen</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>

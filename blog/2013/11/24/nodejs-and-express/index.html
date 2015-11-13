@@ -1,0 +1,455 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Nodejs and Mongoose - Weblog van Jacqueline P.</title>
+  <meta name="author" content="Jacqueline">
+
+  
+  <meta name="description" content="Onto the next step on my journey learning Node. I&#8217;m going to create registration system for informale care volunteers.
+Volunteers can sign in &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jacqinthebox.github.io/blog/2013/11/24/nodejs-and-express/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+   <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Weblog van Jacqueline P." type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-40617842-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+</hgroup>
+
+</header>
+  <!-- <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jacqinthebox.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav> -->
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Nodejs and Mongoose</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-24T19:18:00+01:00" pubdate data-updated="true">Nov 24<span>th</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Onto the next step on my journey learning Node.</p>
+
+<p>I&#8217;m going to create registration system for informale care volunteers.
+Volunteers can sign in and provide all sort of details about themselves. If you are a volunteer and you want to go on vacation or just need some rest, you can browse the directory and find a replacement volounteer.</p>
+
+<p>We basically need an addressbook of volunteers.</p>
+
+<p>The first functional specs are: </br>
+* we need a <em>volunteer</em></br>
+* the volunteer can have a <em>status</em> like available or unavailable</br>
+* the volunteer has all sorts of charecteristics which he or she may edit herself.</br>
+* the volunteer should be able to logon and may only chanqe her or his own details.</p>
+
+<p>We also have some technical requirements</br>
+* we want to write one language for the whole stack</br>
+* the app should be platform indepent, lightweight and open source</br></p>
+
+<p>We can meet the tech reqs by using a webserver running on node.js.
+For the database we choose MongoDb and Mongoose for the ORM, because these seem to be the most <a href="https://npmjs.org/browse/star">popular</a>.</p>
+
+<h2>Designing the API</h2>
+
+<p><strong>/volunteers/1234:</strong> </br>
+GET: show volunteer 1234 </br>
+PUT: if exists updates volunteer 1234 </br>
+DELETE: delete volunteer 1234 </br>
+POST: will not work</p>
+
+<p><strong>/volunteers:</strong> </br>
+GET: read </br>
+PUT: bulk update volunteers </br>
+DELETE: deletes all volunteers </br>
+POST: creates new volunteer </br></p>
+
+<h2>The first tests</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir iVolunteer
+</span><span class='line'><span class="nb">cd </span>iVolunteer
+</span><span class='line'>npm install mocha
+</span><span class='line'>npm install should
+</span><span class='line'>npm install mongoose
+</span><span class='line'>
+</span><span class='line'>mkdir <span class="nb">test</span>
+</span><span class='line'>vim volunteertest.js
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I studied the Mongoose and Mocha sites thoroughly to get this. For me it is better to read the documentation from the code maintainer, because then I know I&#8217;m using the right syntax.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">should</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;should&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">mongoose</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;mongoose&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">Schema</span> <span class="o">=</span> <span class="nx">mongoose</span><span class="p">.</span><span class="nx">Schema</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">volunteerSchema</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Schema</span><span class="p">({</span>
+</span><span class='line'>  <span class="nx">firstname</span><span class="o">:</span>  <span class="nb">String</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">lastname</span><span class="o">:</span> <span class="nb">String</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">Volunteer</span> <span class="o">=</span> <span class="nx">mongoose</span><span class="p">.</span><span class="nx">model</span><span class="p">(</span><span class="s1">&#39;Volunteer&#39;</span><span class="p">,</span> <span class="nx">volunteerSchema</span><span class="p">);</span>
+</span><span class='line'><span class="nx">mongoose</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="s1">&#39;mongodb://localhost:27017/betadb&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;Volunteer&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">beforeEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">done</span><span class="p">){</span>
+</span><span class='line'>    <span class="c1">//clean the database:</span>
+</span><span class='line'>    <span class="nx">Volunteer</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="nx">done</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;#save()&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should save&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">volunteer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Volunteer</span><span class="p">({</span><span class="nx">firstname</span><span class="o">:</span> <span class="s1">&#39;Joe&#39;</span> <span class="p">})</span>
+</span><span class='line'>        <span class="nx">volunteer</span><span class="p">.</span><span class="nx">save</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">done</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+</span><span class='line'>          <span class="c1">//assert.equal(volunteer.firstname,&#39;Joe&#39;);</span>
+</span><span class='line'>          <span class="nx">volunteer</span><span class="p">.</span><span class="nx">should</span><span class="p">.</span><span class="nx">have</span><span class="p">.</span><span class="nx">property</span><span class="p">(</span><span class="s1">&#39;firstname&#39;</span><span class="p">,</span><span class="s1">&#39;Joe&#39;</span><span class="p">);</span>
+</span><span class='line'>          <span class="nx">done</span><span class="p">();</span>
+</span><span class='line'>        <span class="p">});</span>
+</span><span class='line'>      <span class="p">});</span>
+</span><span class='line'>   <span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Jacqueline</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-24T19:18:00+01:00" pubdate data-updated="true">Nov 24<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/nodejs/'>Nodejs</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jacqinthebox.github.io/blog/2013/11/24/nodejs-and-express/" data-via="jacqoutthebox" data-counturl="http://jacqinthebox.github.io/blog/2013/11/24/nodejs-and-express/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/11/22/a-node-http-server/" title="Previous Post: a Node HTTP server">&laquo; a Node HTTP server</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/01/09/debian-workstation-from-scratch/" title="Next Post: XFCE4 on Debian Netinstall (Jessie) in VMware Workstation">XFCE4 on Debian Netinstall (Jessie) in VMware Workstation &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <ul id="recent_posts">
+      <li class="post">
+      <a href="http://jacqinthebox.github.io" alt="Home"><img src="/images/Home.png"></a>
+      <a href="http://jacqinthebox.github.io/archives/" alt="Archives"><img src="/images/Calendar.png"></a>
+      
+      <a href="http://jacqinthebox.github.io/atom.xml" alt="subscribe feed"><img src="/images/rss.png"></a>
+      </li>
+  </ul>
+</section>
+
+<section>
+	<span>
+		<img src="http://www.gravatar.com/avatar/b18f79a84c3fd4f25dff87fe118daa19" alt="Gravatar of Jacqueline " title="Gravatar of Jacqueline" />
+	</span>
+</section>
+<section>
+  <h1>About</h1>
+  <p>My name is Jacqueline and I'm  a 40 something spare time coder from Vlaardingen, The Netherlands.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/11/13/vagrant-tips-for-windows-users/">Vagrant tips for Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/10/03/debian-testing-on-the-bare-metal/">Debian Sid on the bare metal (Thinkpad X250)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/27/foreach-and-quotes/">The Pipeline</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/23/powershell-without-google/">Powershell without Google</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/03/hello-again/">hello again</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jacqinthebox">@jacqinthebox</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jacqinthebox',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("jacqoutthebox", , );
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <p>Follow <a href="http://twitter.com/jacqoutthebox">@jacqoutthebox</a></p>
+  
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Jacqueline -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'weblogvanjacq';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://jacqinthebox.github.io/blog/2013/11/24/nodejs-and-express/';
+        var disqus_url = 'http://jacqinthebox.github.io/blog/2013/11/24/nodejs-and-express/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

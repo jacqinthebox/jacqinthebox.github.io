@@ -1,0 +1,644 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Powershell without Google - Weblog van Jacqueline P.</title>
+  <meta name="author" content="Jacqueline">
+
+  
+  <meta name="description" content="At work I find myself using Powershell a lot. Here are a few tips to use Powershell without Googling all the time. Suppose you want to check if there &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jacqinthebox.github.io/blog/2015/07/23/powershell-without-google/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+   <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Weblog van Jacqueline P." type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-40617842-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+</hgroup>
+
+</header>
+  <!-- <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jacqinthebox.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav> -->
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Powershell Without Google</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-23T21:06:00+02:00" pubdate data-updated="true">Jul 23<span>rd</span>, 2015</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>At work I find myself using Powershell a lot. Here are a few tips to use Powershell without Googling all the time.</p>
+
+<p>Suppose you want to check if there are any PST&#8217;s on a harddrive and let&#8217;s pretend you know nothing, just like <a href="https://www.youtube.com/watch?v=d44LyYL3GkY">Jon Snow</a>.</p>
+
+<h3>Find out what cmdlets are available with Get-Command</h3>
+
+<p>Obviously we need to recurse directories to see if there are any files with a .pst extension. So let&#8217;s see if there&#8217;s a <a href="https://msdn.microsoft.com/en-us/library/ms714395(v=vs.85">cmdlet</a>.aspx) with &#8216;dir&#8217; in it.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PS C:\Users\Jacqueline&gt; get-command '*dir*'
+</span><span class='line'>
+</span><span class='line'>CommandType     Name                                               Version    Source
+</span><span class='line'>-----------     ----                                               -------    ------
+</span><span class='line'>Alias           chdir -&gt; Set-Location
+</span><span class='line'>Alias           dir -&gt; Get-ChildItem
+</span><span class='line'>Alias           rmdir -&gt; Remove-Item
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Get-ChildItem looks like the cmdlet we need. Let&#8217;s see how it works with the help files.</p>
+
+<h3>Get the help files</h3>
+
+<p>The problem with command line interfaces: you can&#8217;t &#8216;guess&#8217; which command to use and what the parameters are. So you will need to read the help files.
+Unfortunately, the help files are in c:\windows\system32, so you need to run the command as an Administrator.</p>
+
+<p>You can only update-help once a day unless you use the -Force parameter.</p>
+
+<p>So open a console as an Admin and run:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PS C:\&gt; update-help -UICulture en-US -force</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Needless to say an Internet connection is required. What if you don&#8217;t have one?</p>
+
+<h4>Saving help to an alternate location</h4>
+
+<p>In that case you can save the help files on an alternate location or on a netwerk share and then update-help.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PS C:\&gt; save-help -DestinationPath C:\powershell\help2 -force -UICulture en-US
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and then (as an Administrator):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PS C:\&gt; Update-Help -SourcePath C:\powershell\help2\ -force -UICulture en-US</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you can use the help files.</p>
+
+<h4>Using the help</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PS C:\&gt; Help Get-ChildItem</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Will display all there is to know about Get-Childitem. Like parameters and what kind of parameters it accepts (string, arrays and so on). If you scroll down the help you get to see the remarks:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>REMARKS
+</span><span class='line'>    To see the examples, type: "get-help Get-ChildItem -examples".
+</span><span class='line'>    For more information, type: "get-help Get-ChildItem -detailed".
+</span><span class='line'>    For technical information, type: "get-help Get-ChildItem -full".
+</span><span class='line'>    For online help, type: "get-help Get-ChildItem -online"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The -examples are very convenient if you want to have a quick solution.</p>
+
+<p>So now we can play a bit with Get-ChildItem. Let&#8217;s discover its syntax:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>SYNTAX
+</span><span class='line'>    Get-ChildItem [[-Path] &lt;String[]&gt;] [[-Filter] &lt;String&gt;] [-Exclude &lt;String[]&gt;] [-Force] [-Include &lt;String[]&gt;] [-Name] [-Recurse] [-UseTransaction
+</span><span class='line'>    [&lt;SwitchParameter&gt;]] [&lt;CommonParameters&gt;]
+</span><span class='line'>
+</span><span class='line'>    Get-ChildItem [[-Filter] &lt;String&gt;] [-Exclude &lt;String[]&gt;] [-Force] [-Include &lt;String[]&gt;] [-Name] [-Recurse] -LiteralPath &lt;String[]&gt; [-UseTransacti
+</span><span class='line'>    on [&lt;SwitchParameter&gt;]] [&lt;CommonParameters&gt;]
+</span><span class='line'>
+</span><span class='line'>    Get-ChildItem [-Attributes &lt;FileAttributes]&gt;] [-Directory] [-File] [-Force] [-Hidden] [-ReadOnly] [-System] [-UseTransaction] [&lt;CommonParameters&gt;
+</span><span class='line'>    ]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here we see it accepts a -Path parameter which is an array because there are brackets: String[]. So we can input multiple search locations by creating an array of locations.</p>
+
+<p>Now type:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>get-help array</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And you will see you get very valuable information about how to create an array. I could create an array like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$search = @($env:HOMEPATH,"c:\temp")
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice the quotes around c:\temp because we&#8217;re dealing with strings.
+The $env:HOMEPATH is already a variable which returns a string.</p>
+
+<p>We can test the array like follows:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PS C:\Users\Jacqueline&gt; $search = @($env:HOMEPATH\Dropbox,"c:\temp")
+</span><span class='line'>PS C:\Users\Jacqueline&gt; $search
+</span><span class='line'>\Users\Jacqueline\Dropbox
+</span><span class='line'>c:\temp</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now we can do a search ilke this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>get-childitem -path $search -Recurse -Include "*.pst" 
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I don&#8217;t want to look at all those red error messages, so let&#8217;s suppress them:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>get-childitem -path $search -Recurse -Include "*.pst" -ErrorAction silentlycontinue
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And now for real:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PS C:\Temp&gt; get-childitem -path $search -Recurse -Include "*.pst" -ErrorAction SilentlyContinue
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    Directory: C:\Users\Jacqueline\Dropbox\work
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>Mode                LastWriteTime         Length Name
+</span><span class='line'>----                -------------         ------ ----
+</span><span class='line'>-a----         5-4-2013     18:33      211305472 jacqueline.pst
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    Directory: C:\temp
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>Mode                LastWriteTime         Length Name
+</span><span class='line'>----                -------------         ------ ----
+</span><span class='line'>-a----        26-7-2015     13:12        5242880 archive.pst
+</span><span class='line'>-a----        26-7-2015     13:12        5242880 old.pst
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&#8217;s put the result in a variable, like so:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$pst = Get-ChildItem -Path "c:\" -Include "*.pst" -Recurse -ErrorAction SilentlyContinue
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Investigating $pst with Get-Member</h3>
+
+<p>Like Get-Command and Get-Help, Get-Member is a really import cmdlet you should know about. With Get-Member we can investigate which properties and methods are available. How can I actually write a script or type a command-line command without having to memorize every object model found on MSDN?</p>
+
+<p>Once you connect to an object you can pipe that object to Get-Member; in turn, Get-Member will enumerate the properties and methods of that object.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>PS C:\Temp&gt; $pst | Get-Member
+</span><span class='line'>
+</span><span class='line'>   TypeName: System.IO.FileInfo
+</span><span class='line'>
+</span><span class='line'>Name                      MemberType     Definition
+</span><span class='line'>----                      ----------     ----------
+</span><span class='line'>Mode                      CodeProperty   System.String Mode{get=Mode;}
+</span><span class='line'>AppendText                Method         System.IO.StreamWriter AppendText()
+</span><span class='line'>CopyTo                    Method         System.IO.FileInfo CopyTo(string destFileName), System.IO.FileInfo... Create                    Method         System.IO.FileStream Create()
+</span><span class='line'>CreateObjRef              Method         System.Runtime.Remoting.ObjRef CreateObjRef(type requestedType)
+</span><span class='line'>CreateText                Method         System.IO.StreamWriter CreateText()
+</span><span class='line'>Decrypt                   Method         void Decrypt()
+</span><span class='line'>Delete                    Method         void Delete()
+</span><span class='line'>Encrypt                   Method         void Encrypt()
+</span><span class='line'>Equals                    Method         bool Equals(System.Object obj)
+</span><span class='line'>
+</span><span class='line'>--MORE
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Scrolling down the list you will notice a Method GetType. Let&#8217;s run that:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PS C:\Temp&gt; $pst.GetType()
+</span><span class='line'>
+</span><span class='line'>IsPublic IsSerial Name                                     BaseType
+</span><span class='line'>-------- -------- ----                                     --------
+</span><span class='line'>True     True     Object[]                                 System.Array
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So $pst is an Array (we already knew that..) but what is in the array?</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>PS C:\Temp&gt; $pst | ForEach-Object { write-host $_.GetType()}
+</span><span class='line'>System.IO.FileInfo
+</span><span class='line'>System.IO.FileInfo
+</span><span class='line'>System.IO.FileInfo
+</span><span class='line'>System.IO.FileInfo</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So, we&#8217;ve got an array full of FileInfo objects. Each objects has a set of methods and properties, which we can query by using Get-Member.</p>
+
+<h3>Fun stuff to do with arrays</h3>
+
+<p>Powershell and any other scripting language is all about gathering input, do stuff with this input and generate the output. You can send the objects through the pipeline and sort them and query them.</p>
+
+<p>So let&#8217;s do that with the $pst array.</p>
+
+<ul>
+<li>Sort the array alphabetically: <code>$pst | Select-Object name,lastwritetime,fullname | Sort-Object lastwritetime</code></li>
+<li>Only show the pst with my name in it: <code>PS C:\Temp&gt; $pst | Where-Object {$_.Name -match "jacq*"}</code></li>
+</ul>
+
+
+<h3>Copying and renaming the PST&#8217;s to another location</h3>
+
+<p>Let&#8217;s copy the PST&#8217;s to another location and rename then so some admin can import the PST into a mailbox.</p>
+
+<p>Just copying is not that hard:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$pst | Copy-Item -Destination C:\Temp\pst-share</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But if I want to rename the file as well I have to be a bit more &#8216;developerish&#8217;:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>foreach ($f in $pst) {
+</span><span class='line'>    $name = $env:USERNAME + "-" + $f.Name
+</span><span class='line'>    Copy-Item $f.FullName -Destination "C:\temp\pst-share\$name"
+</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&#8217;s debate on this script tomorrow.</p>
+
+<!-- ![installer](/images/debian-installer.png "Installer") -->
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Jacqueline</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-23T21:06:00+02:00" pubdate data-updated="true">Jul 23<span>rd</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/powershell-scripting/'>powershell,scripting</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jacqinthebox.github.io/blog/2015/07/23/powershell-without-google/" data-via="jacqoutthebox" data-counturl="http://jacqinthebox.github.io/blog/2015/07/23/powershell-without-google/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/12/03/hello-again/" title="Previous Post: hello again">&laquo; hello again</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/27/foreach-and-quotes/" title="Next Post: The Pipeline">The Pipeline &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <ul id="recent_posts">
+      <li class="post">
+      <a href="http://jacqinthebox.github.io" alt="Home"><img src="/images/Home.png"></a>
+      <a href="http://jacqinthebox.github.io/archives/" alt="Archives"><img src="/images/Calendar.png"></a>
+      
+      <a href="http://jacqinthebox.github.io/atom.xml" alt="subscribe feed"><img src="/images/rss.png"></a>
+      </li>
+  </ul>
+</section>
+
+<section>
+	<span>
+		<img src="http://www.gravatar.com/avatar/b18f79a84c3fd4f25dff87fe118daa19" alt="Gravatar of Jacqueline " title="Gravatar of Jacqueline" />
+	</span>
+</section>
+<section>
+  <h1>About</h1>
+  <p>My name is Jacqueline and I'm  a 40 something spare time coder from Vlaardingen, The Netherlands.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/11/13/vagrant-tips-for-windows-users/">Vagrant tips for Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/10/03/debian-testing-on-the-bare-metal/">Debian Sid on the bare metal (Thinkpad X250)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/27/foreach-and-quotes/">The Pipeline</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/23/powershell-without-google/">Powershell without Google</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/03/hello-again/">hello again</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jacqinthebox">@jacqinthebox</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jacqinthebox',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("jacqoutthebox", , );
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <p>Follow <a href="http://twitter.com/jacqoutthebox">@jacqoutthebox</a></p>
+  
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Jacqueline -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'weblogvanjacq';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://jacqinthebox.github.io/blog/2015/07/23/powershell-without-google/';
+        var disqus_url = 'http://jacqinthebox.github.io/blog/2015/07/23/powershell-without-google/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

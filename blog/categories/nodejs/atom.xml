@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Nodejs | Weblog van Jacqueline P.]]></title>
+  <link href="http://jacqinthebox.github.io/blog/categories/nodejs/atom.xml" rel="self"/>
+  <link href="http://jacqinthebox.github.io/"/>
+  <updated>2015-11-13T13:01:08+01:00</updated>
+  <id>http://jacqinthebox.github.io/</id>
+  <author>
+    <name><![CDATA[Jacqueline]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Nodejs and Mongoose]]></title>
+    <link href="http://jacqinthebox.github.io/blog/2013/11/24/nodejs-and-express/"/>
+    <updated>2013-11-24T19:18:00+01:00</updated>
+    <id>http://jacqinthebox.github.io/blog/2013/11/24/nodejs-and-express</id>
+    <content type="html"><![CDATA[<p>Onto the next step on my journey learning Node.</p>
+
+<p>I'm going to create registration system for informale care volunteers.
+Volunteers can sign in and provide all sort of details about themselves. If you are a volunteer and you want to go on vacation or just need some rest, you can browse the directory and find a replacement volounteer.</p>
+
+<p>We basically need an addressbook of volunteers.</p>
+
+<p>The first functional specs are: </br>
+* we need a <em>volunteer</em></br>
+* the volunteer can have a <em>status</em> like available or unavailable</br>
+* the volunteer has all sorts of charecteristics which he or she may edit herself.</br>
+* the volunteer should be able to logon and may only chanqe her or his own details.</p>
+
+<p>We also have some technical requirements</br>
+* we want to write one language for the whole stack</br>
+* the app should be platform indepent, lightweight and open source</br></p>
+
+<p>We can meet the tech reqs by using a webserver running on node.js.
+For the database we choose MongoDb and Mongoose for the ORM, because these seem to be the most <a href="https://npmjs.org/browse/star">popular</a>.</p>
+
+<h2>Designing the API</h2>
+
+<p><strong>/volunteers/1234:</strong> </br>
+GET: show volunteer 1234 </br>
+PUT: if exists updates volunteer 1234 </br>
+DELETE: delete volunteer 1234 </br>
+POST: will not work</p>
+
+<p><strong>/volunteers:</strong> </br>
+GET: read </br>
+PUT: bulk update volunteers </br>
+DELETE: deletes all volunteers </br>
+POST: creates new volunteer </br></p>
+
+<h2>The first tests</h2>
+
+<p>```bash
+mkdir iVolunteer
+cd iVolunteer
+npm install mocha
+npm install should
+npm install mongoose</p>
+
+<p>mkdir test
+vim volunteertest.js
+```</p>
+
+<p>I studied the Mongoose and Mocha sites thoroughly to get this. For me it is better to read the documentation from the code maintainer, because then I know I'm using the right syntax.</p>
+
+<p>```javascript
+var should = require('should');
+var mongoose = require('mongoose');</p>
+
+<p>var Schema = mongoose.Schema;</p>
+
+<p>var volunteerSchema = new Schema({
+  firstname:  String,
+  lastname: String
+});</p>
+
+<p>var Volunteer = mongoose.model('Volunteer', volunteerSchema);
+mongoose.connect('mongodb://localhost:27017/betadb');</p>
+
+<p>describe('Volunteer', function(){</p>
+
+<p>  beforeEach(function(done){</p>
+
+<pre><code>//clean the database:
+Volunteer.remove(done);
+</code></pre>
+
+<p>  });</p>
+
+<p>  describe('#save()', function() {</p>
+
+<pre><code>it('should save', function(done) {
+  var volunteer = new Volunteer({firstname: 'Joe' }) 
+    volunteer.save(function(err) {
+      if (err) return done(err);  
+      //assert.equal(volunteer.firstname,'Joe');
+      volunteer.should.have.property('firstname','Joe');
+      done();
+    });
+  });
+</code></pre>
+
+<p>   });
+});
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

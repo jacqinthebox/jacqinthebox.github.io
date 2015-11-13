@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Linux,Debian,XFCE4 | Weblog van Jacqueline P.]]></title>
+  <link href="http://jacqinthebox.github.io/blog/categories/linux-debian-xfce4/atom.xml" rel="self"/>
+  <link href="http://jacqinthebox.github.io/"/>
+  <updated>2015-11-13T13:01:08+01:00</updated>
+  <id>http://jacqinthebox.github.io/</id>
+  <author>
+    <name><![CDATA[Jacqueline]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[XFCE4 on Debian Netinstall (Jessie) in VMware Workstation]]></title>
+    <link href="http://jacqinthebox.github.io/blog/2014/01/09/debian-workstation-from-scratch/"/>
+    <updated>2014-01-09T22:29:00+01:00</updated>
+    <id>http://jacqinthebox.github.io/blog/2014/01/09/debian-workstation-from-scratch</id>
+    <content type="html"><![CDATA[<p>I have to admit that trying out Linux Distributions is one of my guilty pleasures. I enjoy configuring my desktop just the way I want it and to be in full control. Working in the terminal makes me very productive and now that I'm getting the hang of Vim it's totally addictive.
+I've tried Vim (and NERDTree) on Windows 8.1 but it's just not the same. For instance, if you drop to a shell the dosbox opens whereas I prefer to stay in the same terminal.</p>
+
+<p>I was very impressed by the simplicity of <a href="http://www.crunchbang.org">Crunchbang</a> that I decided to try and create my own Linux distro from scratch. This is what I did.</p>
+
+<p>You can download Debian Jessie <a href="http://cdimage.debian.org/cdimage/daily-builds/daily/arch-latest/i386/iso-cd/">here</a>.</p>
+
+<p>Install Jessie with the options that suit you. It becomes critical at the Software selection part. Make sure you select only the Standard System utilities:</p>
+
+<p><img src="/images/debian-installer.png" title="Installer" alt="installer" /></p>
+
+<p>Then finish the installation and logon as root.
+These are the first apps to install.
+Then type: visudo:</p>
+
+<p>```bash
+$apt-get install sudo vim curl build-essential linux-headers-$(uname -r) sudo</p>
+
+<p>$visudo
+```</p>
+
+<p>I'm going to add my personal logon account to the sudoers, like this:</p>
+
+<p><img src="/images/visudo.png" title="visudo" alt="visudo" /></p>
+
+<p>If you hit 'ctrl-o' it will ask you to which file to save. Just accept what it suggests and press enter.</p>
+
+<p>It's also wise to disable the annoying beep that you get to hear by each and every typo:</p>
+
+<p><code>
+vim /etc/inputrc
+</code>
+Uncomment 'set bell-style none'</p>
+
+<p><code>
+vim /etc/vim/vimrc
+</code>
+Add 'set vb'. Also enable syntax here by uncommenting: syntax on.</p>
+
+<p>Now logoff and logon with your user account, because now you can use sudo.</p>
+
+<h3>Enable free and contrib repo's and install vmware-tools</h3>
+
+<p>Open /etc/apt/sources.list and change it as follows.</p>
+
+<p>```
+$ sudo vim /etc/apt/sources.list
+:%s/main/main contrib non-free</p>
+
+<p>$sudo apt-get update &amp;&amp; apt-get upgrade
+```</p>
+
+<p>Insert the Vmware tools CD and mount it as follows:</p>
+
+<p><code>
+$ sudo mkdir /mnt/cdrom
+$ sudo mount -t iso9660 -o ro /dev/cdrom /mnt/cdrom
+</code></p>
+
+<p>Now the Vmware tools are in /mnt/cdrom and you can install them as usual.</p>
+
+<p>Enable fancy dircolors and syntax coloring in vim</p>
+
+<p>```
+$ vim ~/.bashrc # uncomment dircolors</p>
+
+<p>```</p>
+
+<h3>Install XFCE</h3>
+
+<p><code>
+$ sudo apt-get install xorg xfce4 lightdm wicd gdebi
+$ sudo apt-get install xfce4-goodies
+$ sudo apt-get install git gitk
+$ sudo apt-get install gtk2-engines-murrine
+</code></p>
+
+<p>You can also combine this to one command.</p>
+
+<p>Restart and login your new XFCE4 desktop.</p>
+
+<h3>Eyecandy</h3>
+
+<p>Go to Settings --> Appearance and enable anti-aliasing under the font tab:</p>
+
+<p><img src="/images/appearance.png" title="appaerance" alt="appearance" /></p>
+
+<p>Enable transparent label text background on the desktop:</p>
+
+<p><code>
+$ vim ~/.gtkrc-2.0
+</code></p>
+
+<p>Add the following text:</p>
+
+<p>```bash
+style "xfdesktop-icon-view" {
+XfdesktopIconView::label-alpha = 0
+}
+widget_class "<em>XfdesktopIconView</em>" style "xfdesktop-icon-view"</p>
+
+<h1>You can also change the font colors.</h1>
+
+<p>style "xfdesktop-icon-view" {
+XfdesktopIconView::label-alpha = 0</p>
+
+<p>base[NORMAL] = "#ffffff"
+base[SELECTED] = "#5D97D1"
+base[ACTIVE] = "#5D97D1"</p>
+
+<p>fg[NORMAL] = "#ffffff"
+fg[SELECTED] = "#ffffff"
+fg[ACTIVE] = "#ffffff"
+}
+widget_class "<em>XfdesktopIconView</em>" style "xfdesktop-icon-view"
+```</p>
+
+<p>Open Settings --> Window Manager Tweaks --> Compositor and enable display compositing:</p>
+
+<p><img src="/images/tweaks.png" title="tweak" alt="tweaks" /></p>
+
+<p>Install a theme. My favorite is <a href="http://shimmerproject.org/project/albatross/" title="">Albatross</a>. Just create a folder ~/.themes and clone the Albatross theme from <a href="https://github.com/shimmerproject/Albatross.git">github</a></p>
+
+<h3>Result</h3>
+
+<p>And then you end up with something like this:</p>
+
+<p><img src="/images/xfce4-desk.png" title="desk" alt="desk" /></p>
+
+<p>And another Linux desktop is installed.</p>
+]]></content>
+  </entry>
+  
+</feed>

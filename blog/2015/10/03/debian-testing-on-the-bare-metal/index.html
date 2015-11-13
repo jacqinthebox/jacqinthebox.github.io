@@ -1,0 +1,381 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Debian Sid on the bare metal (Thinkpad X250) - Weblog van Jacqueline P.</title>
+  <meta name="author" content="Jacqueline">
+
+  
+  <meta name="description" content="Let&#8217;s install Gnome 3.16 (since 3.18 is not yet in the repo&#8217;s) on the latest Debian and see if we can get productive with programming and &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jacqinthebox.github.io/blog/2015/10/03/debian-testing-on-the-bare-metal/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+   <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Weblog van Jacqueline P." type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-40617842-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+</hgroup>
+
+</header>
+  <!-- <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jacqinthebox.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav> -->
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Debian Sid on the Bare Metal (Thinkpad X250)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-03T07:29:00+02:00" pubdate data-updated="true">Oct 3<span>rd</span>, 2015</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Let&#8217;s install Gnome 3.16 (since 3.18 is not yet in the repo&#8217;s) on the latest Debian and see if we can get productive with programming and labs (Javascript development and Vagrant).</p>
+
+<h2>Download the netinst iso and burn it</h2>
+
+<p>The Debian installer iso&#8217;s typically do not include all drivers needed, which is a pain if you need to get an Intel nic working like me on my Thinkpad X250. Luckily, you can download iso&#8217;s which contain the non-free firmware. So if you are not morally against the act of utilizing non-free software this is the easiest way to go.</p>
+
+<p>Download the non-free testing netinst iso from <a href="http://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/weekly-builds/amd64/iso-cd/">here</a>.
+Burn it to USB since we are going the bare metal way.
+If you are on a Mac or on Linux the easiest way is by issuing a &#8216;dd&#8217; command. First check with &#8216;fidsk -l&#8217; which pointer the USB device has on your system. In my case it is &#8216;sdd&#8217;.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>sudo dd if=firmware-testing-amd64-netinst.iso of=/dev/sdd
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Boot it and install</h2>
+
+<p>I still needed to add some extra firmware for my Intel wireless chips. I downloaded them from <a href="https://wireless.wiki.kernel.org/en/users/drivers/iwlwifi">kernel.org</a>, extracted the files on a USB and inserted it in the laptop. The install process continued and bite me. I&#8217;m already working on my new Debian system with Gnome 3.16.</p>
+
+<p><img src="/images/2015103-hostname.png" alt="hostname" /></p>
+
+<p>Since Gnome 3.16 is already eye candy litte adjustments are needed.</p>
+
+<p><img src="/images/2015103-gnome-debian.png" alt="version" /></p>
+
+<h2>Install the basics</h2>
+
+<p>This is my usual first round of commands after a new install:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>su
+</span><span class='line'>apt-get update
+</span><span class='line'>apt-get upgrade
+</span><span class='line'>apt-get install vim visudo git gitk linux-headers-$(uname -r) chromium gdebi wget curl build-essential</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After that I can add myself to the sudoers with visudo:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>su
+</span><span class='line'>visudo</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/2015103-visudo.png" alt="visudo" /></p>
+
+<p>So now the base is ready. In the next post I will add more details about the development tools I use.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Jacqueline</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-03T07:29:00+02:00" pubdate data-updated="true">Oct 3<span>rd</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/debian/'>Debian,</a>, <a class='category' href='/blog/categories/gnome/'>Gnome</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jacqinthebox.github.io/blog/2015/10/03/debian-testing-on-the-bare-metal/" data-via="jacqoutthebox" data-counturl="http://jacqinthebox.github.io/blog/2015/10/03/debian-testing-on-the-bare-metal/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/27/foreach-and-quotes/" title="Previous Post: The Pipeline">&laquo; The Pipeline</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/11/13/vagrant-tips-for-windows-users/" title="Next Post: Vagrant tips for Windows">Vagrant tips for Windows &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <ul id="recent_posts">
+      <li class="post">
+      <a href="http://jacqinthebox.github.io" alt="Home"><img src="/images/Home.png"></a>
+      <a href="http://jacqinthebox.github.io/archives/" alt="Archives"><img src="/images/Calendar.png"></a>
+      
+      <a href="http://jacqinthebox.github.io/atom.xml" alt="subscribe feed"><img src="/images/rss.png"></a>
+      </li>
+  </ul>
+</section>
+
+<section>
+	<span>
+		<img src="http://www.gravatar.com/avatar/b18f79a84c3fd4f25dff87fe118daa19" alt="Gravatar of Jacqueline " title="Gravatar of Jacqueline" />
+	</span>
+</section>
+<section>
+  <h1>About</h1>
+  <p>My name is Jacqueline and I'm  a 40 something spare time coder from Vlaardingen, The Netherlands.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/11/13/vagrant-tips-for-windows-users/">Vagrant tips for Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/10/03/debian-testing-on-the-bare-metal/">Debian Sid on the bare metal (Thinkpad X250)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/27/foreach-and-quotes/">The Pipeline</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/23/powershell-without-google/">Powershell without Google</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/03/hello-again/">hello again</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jacqinthebox">@jacqinthebox</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jacqinthebox',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("jacqoutthebox", , );
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <p>Follow <a href="http://twitter.com/jacqoutthebox">@jacqoutthebox</a></p>
+  
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Jacqueline -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'weblogvanjacq';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://jacqinthebox.github.io/blog/2015/10/03/debian-testing-on-the-bare-metal/';
+        var disqus_url = 'http://jacqinthebox.github.io/blog/2015/10/03/debian-testing-on-the-bare-metal/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

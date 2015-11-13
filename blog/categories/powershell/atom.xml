@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: powershell | Weblog van Jacqueline P.]]></title>
+  <link href="http://jacqinthebox.github.io/blog/categories/powershell/atom.xml" rel="self"/>
+  <link href="http://jacqinthebox.github.io/"/>
+  <updated>2015-11-13T13:01:08+01:00</updated>
+  <id>http://jacqinthebox.github.io/</id>
+  <author>
+    <name><![CDATA[Jacqueline]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[The Pipeline]]></title>
+    <link href="http://jacqinthebox.github.io/blog/2015/07/27/foreach-and-quotes/"/>
+    <updated>2015-07-27T19:36:00+02:00</updated>
+    <id>http://jacqinthebox.github.io/blog/2015/07/27/foreach-and-quotes</id>
+    <content type="html"><![CDATA[<p>Yesterday we ended with a developerish Powershell script:</p>
+
+<p>```
+$pst = Get-ChildItem -Path 'c:\' -Include '*.pst' -Recurse -ErrorAction SilentlyContinue</p>
+
+<p>foreach ($f in $pst) {</p>
+
+<pre><code>    $name = $env:USERNAME + '-' + $f.Name
+    Copy-Item $f.FullName -Destination "C:\temp\pst-share1\$name"
+}
+</code></pre>
+
+<p>```</p>
+
+<p>It loops over all objects in the $pst array. Foreach item in the $pst array, it generates a new file name and the item is copied to another folder with the new file name.</p>
+
+<p>There is another way to accomplish just this, by using the pipeline and instead of foreach, we will be using Foreach-Object.</p>
+
+<p>```
+ $pst | ForEach-Object {</p>
+
+<pre><code>    $name = $env:USERNAME + '-' + $_.Name
+    Copy-Item $_.FullName -Destination "C:\temp\pst-share2\$name"
+</code></pre>
+
+<p>   }
+```</p>
+
+<p>Each method will yield the same result.
+Foreach-Object is a bit slower though, and has the '$_.' notation which is typically Powershell. I prefer the first method because it feels more natural to me. But it does not mean I will not use the pipeline.</p>
+
+<h3>What about the pipeline?</h3>
+
+<p><strong>In Powershell you can pass an array of objects as input to another function (cmdlet)</strong>. This is really cool. With DOS, Vbscript and other scripting languages, there are only 3 types of interfaces:</p>
+
+<ul>
+<li>STDIN</li>
+<li>STDOUT</li>
+<li>STDERR</li>
+</ul>
+
+
+<p>..which accept a textstream as input and as output. Powershell accepts objects as input and output. Using objects as input and executing stages within the PowerShell runtime eliminates the need to serialize data structures, or to extract them by explicitly parsing text output.</p>
+
+<p>These objects expose a set of properties and methods so you can do cool stuff with it. Most of the time, we also want to treat a collection of objects like a database table and query it. For this purpose, there are functions like</p>
+
+<ul>
+<li>foreach-object</li>
+<li>compare-object</li>
+<li>where-object</li>
+<li>select-object</li>
+<li>sort-object</li>
+</ul>
+
+
+<p>So I can create an array of file system objects like this:</p>
+
+<p><code>
+Get-Childitem $env.homepath\dropbox -Recurse
+</code></p>
+
+<p>Or</p>
+
+<p><code>
+$env.homepath\dropbox | get-ChildItem -Recurse
+</code>
+Which will return an array of objects of all my Dropbox data. Suppose I want to filter the .docx files and copy them all to c:\temp:</p>
+
+<p>```
+Get-ChildItem $env:HOMEPATH\Dropbox -Recurse | Where-Object { $_.Name -like "<em>.docx</em>" } | Copy-Item -Destination c:\temp</p>
+
+<p>```</p>
+
+<p>Of course, you can make all kinds of smart collections, e.g. only copy the docs which have a LastAccessTime before 2008 or so (remember, you can query all properties and methods with get-member).</p>
+
+<p>So this article should explain the Powershell pipeline and why it is cool. Next, let's learn about the objects and how you can create custom ones for your system reports.</p>
+]]></content>
+  </entry>
+  
+</feed>

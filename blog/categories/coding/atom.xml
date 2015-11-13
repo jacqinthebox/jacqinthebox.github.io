@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: coding | Weblog van Jacqueline P.]]></title>
+  <link href="http://jacqinthebox.github.io/blog/categories/coding/atom.xml" rel="self"/>
+  <link href="http://jacqinthebox.github.io/"/>
+  <updated>2015-11-13T13:01:08+01:00</updated>
+  <id>http://jacqinthebox.github.io/</id>
+  <author>
+    <name><![CDATA[Jacqueline]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Basic Auth]]></title>
+    <link href="http://jacqinthebox.github.io/blog/2013/11/17/basic-auth/"/>
+    <updated>2013-11-17T17:36:00+01:00</updated>
+    <id>http://jacqinthebox.github.io/blog/2013/11/17/basic-auth</id>
+    <content type="html"><![CDATA[<p>Ik ben al een tijdje bezig met het bouwen van web applicaties met <a href="http://www.angularjs.org">Angularjs</a> en een <a href="http://www.asp.net/web-api/overview/getting-started-with-aspnet-web-api">ASP.NET Web API</a> backend.</p>
+
+<p>Authenticatie is met deze stack bijzonder complex. De <a href="http://www.asp.net/web-api/overview/security/individual-accounts-in-web-api">documentatie</a> vind ik niet erg duidelijk.</p>
+
+<p>Als je deze howto volgt, dan zijn er een paar dingen niet duidelijk. Bijvoorbeeld, waar komt  <strong>http://localhost:port/Token</strong> route vandaan?</p>
+
+<p>Dit komt dus van <a href="http://owin.org/">OWIN</a>.</p>
+
+<p><img src="http://weblogs.asp.net/blogs/pglavich/slide2_4DF24BBA.png" alt="Owin" /></p>
+
+<p>De Web Api Visual Studio templates krijgen zo wel veel weg van een kerstboom.</p>
+
+<p>Ik wacht nog even met token based en ga eens kijken of ik Basic Auth kan toepassen.</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: octopress | Weblog van Jacqueline P.]]></title>
+  <link href="http://jacqinthebox.github.io/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://jacqinthebox.github.io/"/>
+  <updated>2015-11-13T13:01:08+01:00</updated>
+  <id>http://jacqinthebox.github.io/</id>
+  <author>
+    <name><![CDATA[Jacqueline]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Add more computers to blog from with Octopress and Heroku]]></title>
+    <link href="http://jacqinthebox.github.io/blog/2013/05/03/add-more-computers-to-blog-from/"/>
+    <updated>2013-05-03T19:22:00+02:00</updated>
+    <id>http://jacqinthebox.github.io/blog/2013/05/03/add-more-computers-to-blog-from</id>
+    <content type="html"><![CDATA[<p>Here is how to add more computers to blog from with Heroku and Octopress.</p>
+
+<p>On computer 2 (assumes Rails and all dependencies are installed):</p>
+
+<p>First clone your Octopress site. Then cd into the clone, generate, commit and push.</p>
+
+<p>``` bash clone your blog from heroku</p>
+
+<p>git clone git@heroku.com:lazy-turtle-2778.git
+cd lazy-turtle-2778
+rake generate
+git add .
+git commit -m 'testing from 2nd computer'
+git push origin master</p>
+
+<p>```
+Now you can manage your Octopress blog from computer 2.</p>
+
+<p>The next day you want to add a post from computer 1.
+On computer 1, check the name of the remote repository:</p>
+
+<p><code>bash check name of remote repository
+jacqueline@oude-laptop:~/Desktop/code/octopress$ git remote -v
+heroku  git@heroku.com:lazy-turtle-2778.git (fetch)
+heroku  git@heroku.com:lazy-turtle-2778.git (push)
+</code></p>
+
+<p>Now you need to fetch the files from the heroku repo and merge them.</p>
+
+<p>``` bash fetch and merge
+jacqueline@oude-laptop:~/Desktop/code/octopress$ git fetch heroku
+jacqueline@oude-laptop:~/Desktop/code/octopress$ git merge heroku/master</p>
+
+<p>```</p>
+
+<p>And all is set to manage your blog from computer 1.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Disclaimer voor nieuw weblog]]></title>
+    <link href="http://jacqinthebox.github.io/blog/2013/05/02/werkelijk-nog-geen-enkel-idee-hoe-dit-werkt/"/>
+    <updated>2013-05-02T21:04:00+02:00</updated>
+    <id>http://jacqinthebox.github.io/blog/2013/05/02/werkelijk-nog-geen-enkel-idee-hoe-dit-werkt</id>
+    <content type="html"><![CDATA[<p>Mijn weblog werd voorheen gehost door <a href="http://posterous.com/">Posterous</a>, maar deze dienst is opgehouden te bestaan. Helaas. Wat nu? De zoekmachine bracht mij bij <a href="http://octopress.org/">Octopress</a>.</p>
+
+<p><img src="http://www.peterprovost.org/images/blog/2012-04-15-switching-the-blog-to-octopress/octopress-logo.png" alt="Octopress logo" /></p>
+
+<p>Octopress heet niet voor niets 'a blogging framework for hackers'. Om te beginnen is het noodzakelijk dat je <a href="http://rubyonrails.org/">Ruby on Rails</a> op je machine hebt draaien. Vervolgens kun de site met <a href="https://github.com/">Git</a> publishen naar <a href="httpd://www.heroku.com/">Heroku</a>, maar dit kan ook naar Dropbox of Github zelf.</p>
+
+<p>Daarna is het een kwestie van.. editen van tekstbestanden, zoals ik nu deze post zit te kloppen in <a href="http://www.sublimetext.com">Sublime Text</a> in <a href="http://daringfireball.net/projects/markdown/">Markdown</a>.</p>
+
+<p>Helaas is het alleen maar mogelijk te posten vanaf deze laptop. Dat is wel minder, even vanaf een andere werkplek een update schrijven zit er dus niet in.</p>
+
+<p>Last but not least: ik heb de layout gebruikt van <a href="https://github.com/bijumon/oct2">oct2</a>. Design is namelijk niet mijn sterkste kant.</p>
+
+<p>Kortom, zonder al deze resources zou je nu dit weblog niet aan het lezen zijn.
+Ik zeg dan ook: "Hulde aan ieder dit mogelijk heeft gemaakt en driewerf hoera voor Open Source."</p>
+
+<p>En dat allemaal op deze <a href="http://taalprof.blogspot.nl/2013/04/de-zin-die-we-vermoeden-dat-fout-is.html/">dag die ik wist dat zou komen</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>

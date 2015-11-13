@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Debian, | Weblog van Jacqueline P.]]></title>
+  <link href="http://jacqinthebox.github.io/blog/categories/debian/atom.xml" rel="self"/>
+  <link href="http://jacqinthebox.github.io/"/>
+  <updated>2015-11-13T13:01:08+01:00</updated>
+  <id>http://jacqinthebox.github.io/</id>
+  <author>
+    <name><![CDATA[Jacqueline]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Debian Sid on the bare metal (Thinkpad X250)]]></title>
+    <link href="http://jacqinthebox.github.io/blog/2015/10/03/debian-testing-on-the-bare-metal/"/>
+    <updated>2015-10-03T07:29:00+02:00</updated>
+    <id>http://jacqinthebox.github.io/blog/2015/10/03/debian-testing-on-the-bare-metal</id>
+    <content type="html"><![CDATA[<p>Let's install Gnome 3.16 (since 3.18 is not yet in the repo's) on the latest Debian and see if we can get productive with programming and labs (Javascript development and Vagrant).</p>
+
+<h2>Download the netinst iso and burn it</h2>
+
+<p>The Debian installer iso's typically do not include all drivers needed, which is a pain if you need to get an Intel nic working like me on my Thinkpad X250. Luckily, you can download iso's which contain the non-free firmware. So if you are not morally against the act of utilizing non-free software this is the easiest way to go.</p>
+
+<p>Download the non-free testing netinst iso from <a href="http://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/weekly-builds/amd64/iso-cd/">here</a>.
+Burn it to USB since we are going the bare metal way.
+If you are on a Mac or on Linux the easiest way is by issuing a 'dd' command. First check with 'fidsk -l' which pointer the USB device has on your system. In my case it is 'sdd'.</p>
+
+<p>```</p>
+
+<p>sudo dd if=firmware-testing-amd64-netinst.iso of=/dev/sdd</p>
+
+<p>```</p>
+
+<h2>Boot it and install</h2>
+
+<p>I still needed to add some extra firmware for my Intel wireless chips. I downloaded them from <a href="https://wireless.wiki.kernel.org/en/users/drivers/iwlwifi">kernel.org</a>, extracted the files on a USB and inserted it in the laptop. The install process continued and bite me. I'm already working on my new Debian system with Gnome 3.16.</p>
+
+<p><img src="/images/2015103-hostname.png" alt="hostname" /></p>
+
+<p>Since Gnome 3.16 is already eye candy litte adjustments are needed.</p>
+
+<p><img src="/images/2015103-gnome-debian.png" alt="version" /></p>
+
+<h2>Install the basics</h2>
+
+<p>This is my usual first round of commands after a new install:</p>
+
+<p><code>
+su
+apt-get update
+apt-get upgrade
+apt-get install vim visudo git gitk linux-headers-$(uname -r) chromium gdebi wget curl build-essential
+</code></p>
+
+<p>After that I can add myself to the sudoers with visudo:</p>
+
+<p><code>
+su
+visudo
+</code>
+<img src="/images/2015103-visudo.png" alt="visudo" /></p>
+
+<p>So now the base is ready. In the next post I will add more details about the development tools I use.</p>
+]]></content>
+  </entry>
+  
+</feed>

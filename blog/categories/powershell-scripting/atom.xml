@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: powershell,scripting | Weblog van Jacqueline P.]]></title>
+  <link href="http://jacqinthebox.github.io/blog/categories/powershell-scripting/atom.xml" rel="self"/>
+  <link href="http://jacqinthebox.github.io/"/>
+  <updated>2015-11-13T13:01:08+01:00</updated>
+  <id>http://jacqinthebox.github.io/</id>
+  <author>
+    <name><![CDATA[Jacqueline]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Powershell without Google]]></title>
+    <link href="http://jacqinthebox.github.io/blog/2015/07/23/powershell-without-google/"/>
+    <updated>2015-07-23T21:06:00+02:00</updated>
+    <id>http://jacqinthebox.github.io/blog/2015/07/23/powershell-without-google</id>
+    <content type="html"><![CDATA[<p>At work I find myself using Powershell a lot. Here are a few tips to use Powershell without Googling all the time.</p>
+
+<p>Suppose you want to check if there are any PST's on a harddrive and let's pretend you know nothing, just like <a href="https://www.youtube.com/watch?v=d44LyYL3GkY">Jon Snow</a>.</p>
+
+<h3>Find out what cmdlets are available with Get-Command</h3>
+
+<p>Obviously we need to recurse directories to see if there are any files with a .pst extension. So let's see if there's a <a href="https://msdn.microsoft.com/en-us/library/ms714395(v=vs.85">cmdlet</a>.aspx) with 'dir' in it.</p>
+
+<p>```
+PS C:\Users\Jacqueline> get-command '<em>dir</em>'</p>
+
+<p>CommandType     Name                                               Version    Source</p>
+
+<hr />
+
+<p>Alias           chdir -> Set-Location
+Alias           dir -> Get-ChildItem
+Alias           rmdir -> Remove-Item</p>
+
+<p>```</p>
+
+<p>Get-ChildItem looks like the cmdlet we need. Let's see how it works with the help files.</p>
+
+<h3>Get the help files</h3>
+
+<p>The problem with command line interfaces: you can't 'guess' which command to use and what the parameters are. So you will need to read the help files.
+Unfortunately, the help files are in c:\windows\system32, so you need to run the command as an Administrator.</p>
+
+<p>You can only update-help once a day unless you use the -Force parameter.</p>
+
+<p>So open a console as an Admin and run:</p>
+
+<p><code>
+PS C:\&gt; update-help -UICulture en-US -force
+</code></p>
+
+<p>Needless to say an Internet connection is required. What if you don't have one?</p>
+
+<h4>Saving help to an alternate location</h4>
+
+<p>In that case you can save the help files on an alternate location or on a netwerk share and then update-help.</p>
+
+<p>```
+PS C:> save-help -DestinationPath C:\powershell\help2 -force -UICulture en-US</p>
+
+<p>```</p>
+
+<p>and then (as an Administrator):</p>
+
+<p><code>
+PS C:\&gt; Update-Help -SourcePath C:\powershell\help2\ -force -UICulture en-US
+</code></p>
+
+<p>Now you can use the help files.</p>
+
+<h4>Using the help</h4>
+
+<p><code>
+PS C:\&gt; Help Get-ChildItem
+</code></p>
+
+<p>Will display all there is to know about Get-Childitem. Like parameters and what kind of parameters it accepts (string, arrays and so on). If you scroll down the help you get to see the remarks:</p>
+
+<p>```
+REMARKS</p>
+
+<pre><code>To see the examples, type: "get-help Get-ChildItem -examples".
+For more information, type: "get-help Get-ChildItem -detailed".
+For technical information, type: "get-help Get-ChildItem -full".
+For online help, type: "get-help Get-ChildItem -online"
+</code></pre>
+
+<p>```
+The -examples are very convenient if you want to have a quick solution.</p>
+
+<p>So now we can play a bit with Get-ChildItem. Let's discover its syntax:</p>
+
+<p>```</p>
+
+<p>SYNTAX</p>
+
+<pre><code>Get-ChildItem [[-Path] &lt;String[]&gt;] [[-Filter] &lt;String&gt;] [-Exclude &lt;String[]&gt;] [-Force] [-Include &lt;String[]&gt;] [-Name] [-Recurse] [-UseTransaction
+[&lt;SwitchParameter&gt;]] [&lt;CommonParameters&gt;]
+
+Get-ChildItem [[-Filter] &lt;String&gt;] [-Exclude &lt;String[]&gt;] [-Force] [-Include &lt;String[]&gt;] [-Name] [-Recurse] -LiteralPath &lt;String[]&gt; [-UseTransacti
+on [&lt;SwitchParameter&gt;]] [&lt;CommonParameters&gt;]
+
+Get-ChildItem [-Attributes &lt;FileAttributes]&gt;] [-Directory] [-File] [-Force] [-Hidden] [-ReadOnly] [-System] [-UseTransaction] [&lt;CommonParameters&gt;
+]
+</code></pre>
+
+<p>```</p>
+
+<p>Here we see it accepts a -Path parameter which is an array because there are brackets: String[]. So we can input multiple search locations by creating an array of locations.</p>
+
+<p>Now type:</p>
+
+<p><code>
+get-help array
+</code></p>
+
+<p>And you will see you get very valuable information about how to create an array. I could create an array like this:</p>
+
+<p>```
+$search = @($env:HOMEPATH,"c:\temp")</p>
+
+<p>```</p>
+
+<p>Notice the quotes around c:\temp because we're dealing with strings.
+The $env:HOMEPATH is already a variable which returns a string.</p>
+
+<p>We can test the array like follows:</p>
+
+<p><code>
+PS C:\Users\Jacqueline&gt; $search = @($env:HOMEPATH\Dropbox,"c:\temp")
+PS C:\Users\Jacqueline&gt; $search
+\Users\Jacqueline\Dropbox
+c:\temp
+</code></p>
+
+<p>Now we can do a search ilke this:</p>
+
+<p>```
+get-childitem -path $search -Recurse -Include "*.pst"</p>
+
+<p>```</p>
+
+<p>I don't want to look at all those red error messages, so let's suppress them:</p>
+
+<p>```
+get-childitem -path $search -Recurse -Include "*.pst" -ErrorAction silentlycontinue</p>
+
+<p>```</p>
+
+<p>And now for real:</p>
+
+<p>```
+PS C:\Temp> get-childitem -path $search -Recurse -Include "*.pst" -ErrorAction SilentlyContinue</p>
+
+<pre><code>Directory: C:\Users\Jacqueline\Dropbox\work
+</code></pre>
+
+<p>Mode                LastWriteTime         Length Name</p>
+
+<hr />
+
+<p>-a----         5-4-2013     18:33      211305472 jacqueline.pst</p>
+
+<pre><code>Directory: C:\temp
+</code></pre>
+
+<p>Mode                LastWriteTime         Length Name</p>
+
+<hr />
+
+<p>-a----        26-7-2015     13:12        5242880 archive.pst
+-a----        26-7-2015     13:12        5242880 old.pst</p>
+
+<p>```</p>
+
+<p>Let's put the result in a variable, like so:</p>
+
+<p>```
+$pst = Get-ChildItem -Path "c:\" -Include "*.pst" -Recurse -ErrorAction SilentlyContinue</p>
+
+<p>```</p>
+
+<h3>Investigating $pst with Get-Member</h3>
+
+<p>Like Get-Command and Get-Help, Get-Member is a really import cmdlet you should know about. With Get-Member we can investigate which properties and methods are available. How can I actually write a script or type a command-line command without having to memorize every object model found on MSDN?</p>
+
+<p>Once you connect to an object you can pipe that object to Get-Member; in turn, Get-Member will enumerate the properties and methods of that object.</p>
+
+<p>```</p>
+
+<p>PS C:\Temp> $pst | Get-Member</p>
+
+<p>   TypeName: System.IO.FileInfo</p>
+
+<p>Name                      MemberType     Definition</p>
+
+<hr />
+
+<p>Mode                      CodeProperty   System.String Mode{get=Mode;}
+AppendText                Method         System.IO.StreamWriter AppendText()
+CopyTo                    Method         System.IO.FileInfo CopyTo(string destFileName), System.IO.FileInfo... Create                    Method         System.IO.FileStream Create()
+CreateObjRef              Method         System.Runtime.Remoting.ObjRef CreateObjRef(type requestedType)
+CreateText                Method         System.IO.StreamWriter CreateText()
+Decrypt                   Method         void Decrypt()
+Delete                    Method         void Delete()
+Encrypt                   Method         void Encrypt()
+Equals                    Method         bool Equals(System.Object obj)</p>
+
+<p>--MORE</p>
+
+<p>```
+Scrolling down the list you will notice a Method GetType. Let's run that:</p>
+
+<p>```
+PS C:\Temp> $pst.GetType()</p>
+
+<p>IsPublic IsSerial Name                                     BaseType</p>
+
+<hr />
+
+<p>True     True     Object[]                                 System.Array</p>
+
+<p>```</p>
+
+<p>So $pst is an Array (we already knew that..) but what is in the array?</p>
+
+<p>```</p>
+
+<p>PS C:\Temp> $pst | ForEach-Object { write-host $_.GetType()}
+System.IO.FileInfo
+System.IO.FileInfo
+System.IO.FileInfo
+System.IO.FileInfo
+```</p>
+
+<p>So, we've got an array full of FileInfo objects. Each objects has a set of methods and properties, which we can query by using Get-Member.</p>
+
+<h3>Fun stuff to do with arrays</h3>
+
+<p>Powershell and any other scripting language is all about gathering input, do stuff with this input and generate the output. You can send the objects through the pipeline and sort them and query them.</p>
+
+<p>So let's do that with the $pst array.</p>
+
+<ul>
+<li>Sort the array alphabetically: <code>$pst | Select-Object name,lastwritetime,fullname | Sort-Object lastwritetime</code></li>
+<li>Only show the pst with my name in it: <code>PS C:\Temp&gt; $pst | Where-Object {$_.Name -match "jacq*"}</code></li>
+</ul>
+
+
+<h3>Copying and renaming the PST's to another location</h3>
+
+<p>Let's copy the PST's to another location and rename then so some admin can import the PST into a mailbox.</p>
+
+<p>Just copying is not that hard:</p>
+
+<p><code>
+$pst | Copy-Item -Destination C:\Temp\pst-share
+</code></p>
+
+<p>But if I want to rename the file as well I have to be a bit more 'developerish':</p>
+
+<p>```
+foreach ($f in $pst) {</p>
+
+<pre><code>$name = $env:USERNAME + "-" + $f.Name
+Copy-Item $f.FullName -Destination "C:\temp\pst-share\$name"
+</code></pre>
+
+<p>  }
+```</p>
+
+<p>Let's debate on this script tomorrow.</p>
+
+<!-- ![installer](/images/debian-installer.png "Installer") -->
+
+
+
+]]></content>
+  </entry>
+  
+</feed>

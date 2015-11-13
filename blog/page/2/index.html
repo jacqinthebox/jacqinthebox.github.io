@@ -1,0 +1,1170 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Weblog van Jacqueline P.</title>
+  <meta name="author" content="Jacqueline">
+
+  
+  <meta name="description" content="Now I&#8217;m starting to have fun with Nodejs.
+This is because the excellent tutorials from Node tuts and because WebStorm is awesome. Here is a &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jacqinthebox.github.io/blog/page/2/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+   <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Weblog van Jacqueline P." type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-40617842-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+</hgroup>
+
+</header>
+  <!-- <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jacqinthebox.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav> -->
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/21/fun-with-node/">Fun With Node</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-21T22:35:00+01:00" pubdate data-updated="true">Nov 21<span>st</span>, 2013</time>
+        
+         | <a href="/blog/2013/11/21/fun-with-node/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Now I&#8217;m starting to have fun with Nodejs.
+This is because the excellent tutorials from <a href="http://nodetuts.com/">Node tuts</a> and because WebStorm is awesome.</p>
+
+<p>Here is a first line of javascript:</p>
+
+<figure class='code'><figcaption><span>hello.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;behold, the pizza is in the oven.&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+Let&#8217;s run it with Node:</p>
+
+<figure class='code'><figcaption><span>node</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>node hello.js
+</span><span class='line'>behold, the pizza is in the oven.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>Why is this even cool?
+We just ran javascript without a browser, on a server.</p>
+
+<h3>Blocking vs non-blocking</h3>
+
+<p>This is an example of blocking code:</p>
+
+<figure class='code'><figcaption><span>read_file.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">contents</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="s1">&#39;/etc/hosts&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">contents</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Now on to the next function&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will run line by line, and all other processes are blocked until its finished.</p>
+
+<p>With Node, we should be writing non blocking code, like this:</p>
+
+<figure class='code'><figcaption><span>read_file.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="s1">&#39;/etc/hosts&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">,</span><span class="nx">contents</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">contents</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Now on to the next function&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The readFileSync accepts two parameters, the file to read and another function: the callback function.
+The callback function has 2 parameters, one that contains the error (if there is one) and one that contains the result.</p>
+
+<p>We can also write the function like this:</p>
+
+<figure class='code'><figcaption><span>read_file.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//a callback function returns the result, asynchronuously.</span>
+</span><span class='line'><span class="c1">//a callback function always has 2 parameters, first is the error and the second is the result</span>
+</span><span class='line'><span class="kd">function</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">results</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">handleError</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">results</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//in node, in third party libraries, the last parameter from a function is the callback.</span>
+</span><span class='line'><span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="s1">&#39;/etc/host&#39;</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//we can read a second file. This would run in parallel, it&#39;s non-blocking!</span>
+</span><span class='line'><span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="s1">&#39;/etc/vim/vimrc&#39;</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>I think it&#8217;s more readable to add the callback function as a parameter and then we can omit &#8216;callback&#8217; and use an anonymous function:</p>
+
+<figure class='code'><figcaption><span>read_file.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//the callback function is the last argument</span>
+</span><span class='line'><span class="c1">//the callback function always has 2 arguments, error and results.</span>
+</span><span class='line'><span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="s1">&#39;/etc/hostst&#39;</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">results</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">handleError</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">results</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+So this is the essence of Nodejs:</p>
+
+<ul>
+<li>stop writing threads and other procedural blocking code</li>
+<li>start writing asynchronous code</li>
+<li>in a third party lib the last parameter is the callback</li>
+<li>in a callback function the first parameter is the error, the second parameter is the result.</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/21/installing-node-on-debian/">Installing Node and Webstorm on Debian</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-21T10:28:00+01:00" pubdate data-updated="true">Nov 21<span>st</span>, 2013</time>
+        
+         | <a href="/blog/2013/11/21/installing-node-on-debian/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://gist.github.com/isaacs/579814">This</a> is how to install Node on a Linux system:</p>
+
+<figure class='code'><figcaption><span>Install Node</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">echo</span> <span class="s1">&#39;export PATH=$HOME/local/bin:$PATH&#39;</span> &gt;&gt; ~/.bashrc
+</span><span class='line'>. ~/.bashrc
+</span><span class='line'>mkdir ~/local
+</span><span class='line'>mkdir ~/node-latest-install
+</span><span class='line'><span class="nb">cd</span> ~/node-latest-install
+</span><span class='line'>curl http://nodejs.org/dist/node-latest.tar.gz | tar xz --strip-components<span class="o">=</span>1
+</span><span class='line'>./configure --prefix<span class="o">=</span>~/local
+</span><span class='line'>make install <span class="c"># ok, fine, this step probably takes more than 30 seconds...</span>
+</span><span class='line'>curl https://npmjs.org/install.sh | sh
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For Webstorm we need the SunJDK.</p>
+
+<figure class='code'><figcaption><span>Install SunJDK</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#get the JDK</span>
+</span><span class='line'><span class="nv">$ </span>wget --no-cookies --header <span class="s2">&quot;Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com&quot;</span> <span class="s2">&quot;http://download.oracle.com/otn-pub/java/jdk/7u45-b18/jdk-7u45-linux-i586.tar.gz&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#unpack it</span>
+</span><span class='line'><span class="nv">$ </span>sudo tar zxvf jdk-7u45-linux-i586.tar.gz -C /usr/lib/jvm/
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Check the current JVM (openJDK):</p>
+
+<figure class='code'><figcaption><span>check JVM</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>update-alternatives --display java
+</span><span class='line'>java - auto mode
+</span><span class='line'>  link currently points to /usr/lib/jvm/java-6-openjdk-i386/jre/bin/java
+</span><span class='line'>/usr/lib/jvm/java-6-openjdk-i386/jre/bin/java - priority 1061
+</span><span class='line'>  slave java.1.gz: /usr/lib/jvm/java-6-openjdk-i386/jre/man/man1/java.1.gz
+</span><span class='line'>Current <span class="s1">&#39;best&#39;</span> version is <span class="s1">&#39;/usr/lib/jvm/java-6-openjdk-i386/jre/bin/java&#39;</span>.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Check the -priority value. Mine is <strong>1061</strong> as you can see..
+This means we need to install the SunJDK with a higher priority, i.c. <strong>1062</strong>.</p>
+
+<p>Run all these commands (make sure the path is right though).</p>
+
+<figure class='code'><figcaption><span>JVM</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># set the priority to 1062!</span>
+</span><span class='line'><span class="nv">$ </span>sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk1.7.0_45/bin/java 1062
+</span><span class='line'><span class="nv">$ </span>sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk1.7.0_45/bin/javac 1062
+</span><span class='line'><span class="nv">$ </span>sudo update-alternatives --install /usr/bin/javaws javaws /usr/lib/jvm/jdk1.7.0_45/bin/javaws 1062
+</span><span class='line'><span class="nv">$ </span>sudo update-alternatives --install /usr/lib/mozilla/plugins/libnpjp2.so libnpjp2.so /usr/lib/jvm/jdk1.7.0_45/jre/lib/i386/libnpjp2.so 1062
+</span><span class='line'>
+</span><span class='line'><span class="c">#check the java version</span>
+</span><span class='line'>/usr/lib/jvm<span class="nv">$ </span>java -version
+</span><span class='line'>java version <span class="s2">&quot;1.7.0_45&quot;</span>
+</span><span class='line'>Java<span class="o">(</span>TM<span class="o">)</span> SE Runtime Environment <span class="o">(</span>build 1.7.0_45-b18<span class="o">)</span>
+</span><span class='line'>Java HotSpot<span class="o">(</span>TM<span class="o">)</span> Client VM <span class="o">(</span>build 24.45-b08, mixed mode<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Install WebStorm</p>
+
+<figure class='code'><figcaption><span>Webstorm</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>wget http://download.jetbrains.com/webstorm/WebStorm-7.0.2.tar.gz
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/17/basic-auth/">Basic Auth</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-17T17:36:00+01:00" pubdate data-updated="true">Nov 17<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/11/17/basic-auth/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Ik ben al een tijdje bezig met het bouwen van web applicaties met <a href="http://www.angularjs.org">Angularjs</a> en een <a href="http://www.asp.net/web-api/overview/getting-started-with-aspnet-web-api">ASP.NET Web API</a> backend.</p>
+
+<p>Authenticatie is met deze stack bijzonder complex. De <a href="http://www.asp.net/web-api/overview/security/individual-accounts-in-web-api">documentatie</a> vind ik niet erg duidelijk.</p>
+
+<p>Als je deze howto volgt, dan zijn er een paar dingen niet duidelijk. Bijvoorbeeld, waar komt  <strong>http://localhost:port/Token</strong> route vandaan?</p>
+
+<p>Dit komt dus van <a href="http://owin.org/">OWIN</a>.</p>
+
+<p><img src="http://weblogs.asp.net/blogs/pglavich/slide2_4DF24BBA.png" alt="Owin" /></p>
+
+<p>De Web Api Visual Studio templates krijgen zo wel veel weg van een kerstboom.</p>
+
+<p>Ik wacht nog even met token based en ga eens kijken of ik Basic Auth kan toepassen.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/10/crunchbang/">CrunchBang</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-10T22:04:00+01:00" pubdate data-updated="true">Nov 10<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/11/10/crunchbang/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I have been using Linux forever. In 2003, I registered at Linux Counter.</p>
+
+<p><img src="https://linuxcounter.net/cert/312740.png" alt="this" />.</p>
+
+<p>I have been using tons of Linux distro&#8217;s. I&#8217;ve started with Caldera, went on to RedHat and used Slackware for a while. After then I sorta stuck to Debian and Ubuntu. And recently I&#8217;ve found <a href="http://crunchbang.org/">CrunchBang</a>.</p>
+
+<p>I think it&#8217;s quite good.</p>
+
+<p><img src="/images/crunch.png" title="Crunch" alt="crunchbang" /></p>
+
+<h3>Why CrunchBang is cool #!</h3>
+
+<ul>
+<li>lots of keyboard shortcuts</li>
+<li>terminal here in the file explorer</li>
+<li>easy software install fromt OpenBox menu</li>
+<li>feels like home: #! is based on Debian Wheezy</li>
+</ul>
+
+
+<p>Here&#8217;s a <a href="http://www.everydaylinuxuser.com/2013/03/everyday-linux-user-review-of.html">review</a>.
+I did some minimal tweaks, let&#8217;s describe them below.</p>
+
+<h2>Conky</h2>
+
+<p>To use Conky to display keyboard shortcuts is brilliant for those with memory leaks.
+I&#8217;ve added some exta shortcuts for VIM, NERDTree and Terminator.
+<a href="https://gist.github.com/jacqinthebox/7612954">Here</a> is a link to my conkyrc.</p>
+
+<p><img src="/images/crunch-empty.png" title="Empty" alt="crunch-empty" /></p>
+
+<h2>Terminal emulator</h2>
+
+<p>The default terminal is <a href="https://launchpad.net/terminator/">Terminator</a>.
+Here are the most basic keybindings, copied from the <a href="http://crunchbanglinux.org/wiki/terminator">CrunchBang site</a>:</p>
+
+<ul>
+<li>Ctrl-Shift-o: Split the screen horizontally</li>
+<li>Ctrl-Shift-e: Split the screen vertically</li>
+<li>Ctrl-Shift-t: Open a new tab</li>
+<li>Ctrl-Shift-w: Close the current terminal</li>
+<li>Ctrl-Shift-q: Quit Terminator</li>
+</ul>
+
+
+<p>Navigation:</p>
+
+<ul>
+<li>Ctrl-Shift-n / Ctrl-Tab: Next terminal within tab</li>
+<li>Ctrl-Shift-p / Ctrl-Shift-Tab: Previous terminal within tab</li>
+<li>Ctrl-Pageup: Move to next tab</li>
+<li>Ctrl-Pagedown: Move to previous tab</li>
+<li>Shift-Pageup: Scroll back through the current terminal</li>
+<li>Shift-Pagedown: Scroll forward through the current terminal</li>
+</ul>
+
+
+<p>I decided to change the colorscheme to Solarized from Ethan Schoonover.</p>
+
+<p><img src="http://ethanschoonover.com/solarized/img/solarized-yinyang.png" height="217px" width="217px" /></p>
+
+<p><a href="https://github.com/ashleyblackmore/terminator-solarized">Here</a> is the github repo with the config file for Terminator.</p>
+
+<h2>Vim</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$sudo</span> vim /etc/vim/vimrc
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And uncomment &#8216;syntax on&#8217;.</p>
+
+<p>Next install <a href="https://github.com/tpope/vim-pathogen">Pathogen</a>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">##copy and paste this in the terminal:</span>
+</span><span class='line'>
+</span><span class='line'>mkdir -p ~/.vim/autoload ~/.vim/bundle; <span class="se">\</span>
+</span><span class='line'>curl -Sso ~/.vim/autoload/pathogen.vim <span class="se">\</span>
+</span><span class='line'>    https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now install <a href="http://ethanschoonover.com/">Solarized</a> for Vim:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">cd</span> ~/.vim/bundle
+</span><span class='line'><span class="nv">$ </span>git clone git://github.com/altercation/vim-colors-solarized.git
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And install <a href="https://github.com/scrooloose/nerdtree">NERDTree</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd</span> ~/.vim/bundle
+</span><span class='line'>git clone https://github.com/scrooloose/nerdtree.git
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now go ahead and creat a .vimrc:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$vim</span> ~/.vimrc
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Copy this in the .vimrc.
+This will set a statusline and line numbers.
+It activates pathogen and sets the colorscheme:</p>
+
+<figure class='code'><figcaption><span>vimrc</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">set </span><span class="nv">statusline</span><span class="o">=</span>%&lt;%F%h%m%r%h%w%y<span class="se">\ </span>%<span class="o">{</span>&amp;ff<span class="o">}</span><span class="se">\ </span>%<span class="o">{</span>strftime<span class="o">(</span><span class="se">\&quot;</span>%c<span class="se">\&quot;</span>,getftime<span class="o">(</span>expand<span class="o">(</span><span class="se">\&quot;</span>%:p<span class="se">\&quot;</span><span class="o">)))}</span>%<span class="o">=</span><span class="se">\ </span>lin:%l<span class="se">\,</span>%L<span class="se">\ </span>col:%c%V<span class="se">\ </span>pos:%o<span class="se">\ </span>ascii:%b<span class="se">\ </span>%P
+</span><span class='line'><span class="nb">set </span><span class="nv">laststatus</span><span class="o">=</span>2
+</span><span class='line'><span class="nb">set </span>number
+</span><span class='line'>execute pathogen#infect<span class="o">()</span>
+</span><span class='line'>syntax <span class="nb">enable</span>
+</span><span class='line'><span class="nb">set </span><span class="nv">background</span><span class="o">=</span>light
+</span><span class='line'>colorscheme solarized
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And the result will be this:</p>
+
+<p><img src="/images/vim.png" title="vim" alt="vim" /></p>
+
+<p>You can also choose the solarized-dark, but I think the light version is easier on the eye.
+Now you can go coding, be mighty productive and make lots of money. Or not.:)</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/14/on-azure/">On Azure</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-14T11:34:00+02:00" pubdate data-updated="true">Sep 14<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/09/14/on-azure/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I posted this from a Ubuntu box on Azure.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/04/customizing-peppermint/">NERDTree Cheatsheet</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-04T10:04:00+02:00" pubdate data-updated="true">Aug 4<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/08/04/customizing-peppermint/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Install VIM, Pathogen and NERDTree.</p>
+
+<figure class='code'><figcaption><span>NERDTree</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>* o       <span class="c">#Open file or directory in the NERDTree Explorer</span>
+</span><span class='line'>* t       <span class="c">#Open file in new vi tab</span>
+</span><span class='line'>* i       <span class="c">#Open file in new horizontal split</span>
+</span><span class='line'>* s       <span class="c">#Open file in new vertical split</span>
+</span><span class='line'>* p       <span class="c">#Go to parent directory</span>
+</span><span class='line'>* r       <span class="c">#Refresh current directory</span>
+</span><span class='line'>* ctrl+ww <span class="c">#Switch between the NERDTree Explorer and File Buffer</span>
+</span><span class='line'>
+</span><span class='line'>* :NERDTree      <span class="c">#Open the NERDTree Explorer</span>
+</span><span class='line'>* :NERDTreeClose <span class="c">#Close the NERDTree Explorer</span>
+</span><span class='line'>* :tabp          <span class="c">#Go to previous vi tab</span>
+</span><span class='line'>* :tabn          <span class="c">#Go to next vi tab</span>
+</span><span class='line'>* :tabnew        <span class="c">#Open new vi tab</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/10/hyper-v-and-ubuntu/">Ubuntu Gnome</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-10T14:04:00+02:00" pubdate data-updated="true">May 10<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/05/10/hyper-v-and-ubuntu/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>There is a version of Ubuntu that has Gnome 3 as desktop manager. I prepared a box for updating my Octopress blog.</p>
+
+<p>Here is how.</p>
+
+<figure class='code'><figcaption><span>complete transcript</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#install RVM</span>
+</span><span class='line'>sudo apt-get install curl
+</span><span class='line'><span class="se">\c</span>url -L https://get.rvm.io | bash -s stable
+</span><span class='line'><span class="nb">source</span> ~/.rvm/scripts/rvm
+</span><span class='line'>rvm requirements
+</span><span class='line'>rvm install 1.9.3
+</span><span class='line'>rvm use 1.9.3 --default
+</span><span class='line'>
+</span><span class='line'><span class="c">#install rubygems and rails</span>
+</span><span class='line'>rvm rubygems current
+</span><span class='line'>gem install rails --no-rdoc --no-ri
+</span><span class='line'>
+</span><span class='line'><span class="c">#install git and heroku</span>
+</span><span class='line'>sudo apt-get install git
+</span><span class='line'>wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+</span><span class='line'><span class="c">#create keys:</span>
+</span><span class='line'>ssh-keygen -t rsa
+</span><span class='line'>heroku keys:add
+</span><span class='line'>heroku login
+</span><span class='line'>
+</span><span class='line'><span class="c">#clone the Octopress site from Heroku (or a new one from the Octopress site)</span>
+</span><span class='line'>git clone git@heroku.com:enig-savan-2778.git
+</span><span class='line'>gem install bundler
+</span><span class='line'>sudo apt-get install rbenv
+</span><span class='line'>rbenv rehash
+</span><span class='line'>bundle install
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c">#install Sublime Text</span>
+</span><span class='line'>sudo add-apt-repository ppa:webupd8team/sublime-text-2
+</span><span class='line'>sudo apt-get install sublime-text-2
+</span><span class='line'>
+</span><span class='line'><span class="c">#add your info to Git</span>
+</span><span class='line'>git config --global user.name <span class="s2">&quot;Jacqueline&quot;</span>
+</span><span class='line'>git config --global user.email <span class="s2">&quot;jacqueline@linux02&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>By the way, install 1.9.3 wit RVM doesn&#8217;t work with Debian Jessie (yet, however 2.0.0 works fine).If you are like me and you don&#8217;t do Rails development, you can install the Octopress requisites on Jessie like so:</p>
+
+<figure class='code'><figcaption><span>complete transcript</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install ruby ruby-dev rbenv
+</span><span class='line'>sudo gem install bundler
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So, in this case  it is actually convenient that Debian never uses the latest version of sofware.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/05/peppermint-os/">Peppermint OS</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-05T11:03:00+02:00" pubdate data-updated="true">May 5<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/05/05/peppermint-os/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://peppermintos.com">Peppermint OS</a> is a minimal Linux distribution based on Ubuntu. Its desktop manager is OpenBox. So why did I choose this distribution? Well, it is the only one that does not crash in Vmware Workstation 9 on Windows 8.</p>
+
+<p><img src="http://wiki.lxde.org/en/images/3/36/Peppermint_logo.png" alt="Peppermint logo" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/03/add-more-computers-to-blog-from/">Add More Computers to Blog From With Octopress and Heroku</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-03T19:22:00+02:00" pubdate data-updated="true">May 3<span>rd</span>, 2013</time>
+        
+         | <a href="/blog/2013/05/03/add-more-computers-to-blog-from/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Here is how to add more computers to blog from with Heroku and Octopress.</p>
+
+<p>On computer 2 (assumes Rails and all dependencies are installed):</p>
+
+<p>First clone your Octopress site. Then cd into the clone, generate, commit and push.</p>
+
+<figure class='code'><figcaption><span>clone your blog from heroku</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone git@heroku.com:lazy-turtle-2778.git
+</span><span class='line'><span class="nb">cd </span>lazy-turtle-2778
+</span><span class='line'>rake generate
+</span><span class='line'>git add .
+</span><span class='line'>git commit -m <span class="s1">&#39;testing from 2nd computer&#39;</span>
+</span><span class='line'>git push origin master
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you can manage your Octopress blog from computer 2.</p>
+
+<p>The next day you want to add a post from computer 1.
+On computer 1, check the name of the remote repository:</p>
+
+<figure class='code'><figcaption><span>check name of remote repository</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>jacqueline@oude-laptop:~/Desktop/code/octopress<span class="nv">$ </span>git remote -v
+</span><span class='line'>heroku    git@heroku.com:lazy-turtle-2778.git <span class="o">(</span>fetch<span class="o">)</span>
+</span><span class='line'>heroku    git@heroku.com:lazy-turtle-2778.git <span class="o">(</span>push<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you need to fetch the files from the heroku repo and merge them.</p>
+
+<figure class='code'><figcaption><span>fetch and merge</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>jacqueline@oude-laptop:~/Desktop/code/octopress<span class="nv">$ </span>git fetch heroku
+</span><span class='line'>jacqueline@oude-laptop:~/Desktop/code/octopress<span class="nv">$ </span>git merge heroku/master
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And all is set to manage your blog from computer 1.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/02/werkelijk-nog-geen-enkel-idee-hoe-dit-werkt/">Disclaimer Voor Nieuw Weblog</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-02T21:04:00+02:00" pubdate data-updated="true">May 2<span>nd</span>, 2013</time>
+        
+         | <a href="/blog/2013/05/02/werkelijk-nog-geen-enkel-idee-hoe-dit-werkt/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Mijn weblog werd voorheen gehost door <a href="http://posterous.com/">Posterous</a>, maar deze dienst is opgehouden te bestaan. Helaas. Wat nu? De zoekmachine bracht mij bij <a href="http://octopress.org/">Octopress</a>.</p>
+
+<p><img src="http://www.peterprovost.org/images/blog/2012-04-15-switching-the-blog-to-octopress/octopress-logo.png" alt="Octopress logo" /></p>
+
+<p>Octopress heet niet voor niets &#8216;a blogging framework for hackers&#8217;. Om te beginnen is het noodzakelijk dat je <a href="http://rubyonrails.org/">Ruby on Rails</a> op je machine hebt draaien. Vervolgens kun de site met <a href="https://github.com/">Git</a> publishen naar <a href="httpd://www.heroku.com/">Heroku</a>, maar dit kan ook naar Dropbox of Github zelf.</p>
+
+<p>Daarna is het een kwestie van.. editen van tekstbestanden, zoals ik nu deze post zit te kloppen in <a href="http://www.sublimetext.com">Sublime Text</a> in <a href="http://daringfireball.net/projects/markdown/">Markdown</a>.</p>
+
+<p>Helaas is het alleen maar mogelijk te posten vanaf deze laptop. Dat is wel minder, even vanaf een andere werkplek een update schrijven zit er dus niet in.</p>
+
+<p>Last but not least: ik heb de layout gebruikt van <a href="https://github.com/bijumon/oct2">oct2</a>. Design is namelijk niet mijn sterkste kant.</p>
+
+<p>Kortom, zonder al deze resources zou je nu dit weblog niet aan het lezen zijn.
+Ik zeg dan ook: &#8220;Hulde aan ieder dit mogelijk heeft gemaakt en driewerf hoera voor Open Source.&#8221;</p>
+
+<p>En dat allemaal op deze <a href="http://taalprof.blogspot.nl/2013/04/de-zin-die-we-vermoeden-dat-fout-is.html/">dag die ik wist dat zou komen</a>.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/3/">&larr; Older</a>
+    
+    <a href="archives">Blog Archives</a>
+    
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <ul id="recent_posts">
+      <li class="post">
+      <a href="http://jacqinthebox.github.io" alt="Home"><img src="/images/Home.png"></a>
+      <a href="http://jacqinthebox.github.io/archives/" alt="Archives"><img src="/images/Calendar.png"></a>
+      
+      <a href="http://jacqinthebox.github.io/atom.xml" alt="subscribe feed"><img src="/images/rss.png"></a>
+      </li>
+  </ul>
+</section>
+
+<section>
+	<span>
+		<img src="http://www.gravatar.com/avatar/b18f79a84c3fd4f25dff87fe118daa19" alt="Gravatar of Jacqueline " title="Gravatar of Jacqueline" />
+	</span>
+</section>
+<section>
+  <h1>About</h1>
+  <p>My name is Jacqueline and I&#8217;m  a 40 something spare time coder from Vlaardingen, The Netherlands.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/11/13/vagrant-tips-for-windows-users/">Vagrant tips for Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/10/03/debian-testing-on-the-bare-metal/">Debian Sid on the bare metal (Thinkpad X250)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/27/foreach-and-quotes/">The Pipeline</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/23/powershell-without-google/">Powershell without Google</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/03/hello-again/">hello again</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/jacqinthebox">@jacqinthebox</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jacqinthebox',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("jacqoutthebox", , );
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <p>Follow <a href="http://twitter.com/jacqoutthebox">@jacqoutthebox</a></p>
+  
+</section>
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Jacqueline -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'weblogvanjacq';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

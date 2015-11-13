@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Linux,Debian | Weblog van Jacqueline P.]]></title>
+  <link href="http://jacqinthebox.github.io/blog/categories/linux-debian/atom.xml" rel="self"/>
+  <link href="http://jacqinthebox.github.io/"/>
+  <updated>2015-11-13T13:01:08+01:00</updated>
+  <id>http://jacqinthebox.github.io/</id>
+  <author>
+    <name><![CDATA[Jacqueline]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Debian on the bare metal]]></title>
+    <link href="http://jacqinthebox.github.io/blog/2014/01/12/debian-on-the-bare-metal/"/>
+    <updated>2014-01-12T09:36:00+01:00</updated>
+    <id>http://jacqinthebox.github.io/blog/2014/01/12/debian-on-the-bare-metal</id>
+    <content type="html"><![CDATA[<p>Today I took the plunge and installed Debian instead of Windows 8.1 on my main machine. Indeed, on the bare metal.</p>
+
+<p>I first checked if my hardware compatibility. There's an awesome (portable) tool called <a href="" title="http://www.hwinfo.com/">HWiNFO</a> you can run and check what hardware is inside your computer. Then you can check if there's Linux support. The most important hardware pieces are video cards, networking hardware and audio.</p>
+
+<p>For instance, I happen to own an Intel 4000 HD Graphics adapter. I had to compile and install the drivers.
+Lucky for me, the README files were quite good.</p>
+
+<p>Tips for optimizing graphics:</p>
+
+<ul>
+<li><p>Install xrandr to enable extended mode on your dual monitor setup</p></li>
+<li><p>Install gdm3 (however I'm not sure if this did the trick that my display suddenly became beautiful.</p></li>
+</ul>
+
+
+<p><img src="/images/silverslank.png" title="desktop" alt="desktop" /></p>
+
+<p>For Evernote and Spotify are no Linux packages, so I installed them as addins in Chrome. It makes them look like they are native. Suddenly I came to understand the importance of Chromebooks!</p>
+
+<p>Next week I get to order a MacBook Pro (courtesy to my boss). Then Windows has disappeared form all my computers, except the virtual ones I need for work (and Visual Studio).</p>
+]]></content>
+  </entry>
+  
+</feed>

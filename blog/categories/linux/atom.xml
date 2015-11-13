@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Linux | Weblog van Jacqueline P.]]></title>
+  <link href="http://jacqinthebox.github.io/blog/categories/linux/atom.xml" rel="self"/>
+  <link href="http://jacqinthebox.github.io/"/>
+  <updated>2015-11-13T13:01:08+01:00</updated>
+  <id>http://jacqinthebox.github.io/</id>
+  <author>
+    <name><![CDATA[Jacqueline]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[CrunchBang]]></title>
+    <link href="http://jacqinthebox.github.io/blog/2013/11/10/crunchbang/"/>
+    <updated>2013-11-10T22:04:00+01:00</updated>
+    <id>http://jacqinthebox.github.io/blog/2013/11/10/crunchbang</id>
+    <content type="html"><![CDATA[<p>I have been using Linux forever. In 2003, I registered at Linux Counter.</p>
+
+<p><img src="https://linuxcounter.net/cert/312740.png" alt="this" />.</p>
+
+<p>I have been using tons of Linux distro's. I've started with Caldera, went on to RedHat and used Slackware for a while. After then I sorta stuck to Debian and Ubuntu. And recently I've found <a href="http://crunchbang.org/">CrunchBang</a>.</p>
+
+<p>I think it's quite good.</p>
+
+<p><img src="/images/crunch.png" title="Crunch" alt="crunchbang" /></p>
+
+<h3>Why CrunchBang is cool #!</h3>
+
+<ul>
+<li>lots of keyboard shortcuts</li>
+<li>terminal here in the file explorer</li>
+<li>easy software install fromt OpenBox menu</li>
+<li>feels like home: #! is based on Debian Wheezy</li>
+</ul>
+
+
+<p>Here's a <a href="http://www.everydaylinuxuser.com/2013/03/everyday-linux-user-review-of.html">review</a>.
+I did some minimal tweaks, let's describe them below.</p>
+
+<h2>Conky</h2>
+
+<p>To use Conky to display keyboard shortcuts is brilliant for those with memory leaks.
+I've added some exta shortcuts for VIM, NERDTree and Terminator.
+<a href="https://gist.github.com/jacqinthebox/7612954">Here</a> is a link to my conkyrc.</p>
+
+<p><img src="/images/crunch-empty.png" title="Empty" alt="crunch-empty" /></p>
+
+<h2>Terminal emulator</h2>
+
+<p>The default terminal is <a href="https://launchpad.net/terminator/">Terminator</a>.
+Here are the most basic keybindings, copied from the <a href="http://crunchbanglinux.org/wiki/terminator">CrunchBang site</a>:</p>
+
+<ul>
+<li>Ctrl-Shift-o: Split the screen horizontally</li>
+<li>Ctrl-Shift-e: Split the screen vertically</li>
+<li>Ctrl-Shift-t: Open a new tab</li>
+<li>Ctrl-Shift-w: Close the current terminal</li>
+<li>Ctrl-Shift-q: Quit Terminator</li>
+</ul>
+
+
+<p>Navigation:</p>
+
+<ul>
+<li>Ctrl-Shift-n / Ctrl-Tab: Next terminal within tab</li>
+<li>Ctrl-Shift-p / Ctrl-Shift-Tab: Previous terminal within tab</li>
+<li>Ctrl-Pageup: Move to next tab</li>
+<li>Ctrl-Pagedown: Move to previous tab</li>
+<li>Shift-Pageup: Scroll back through the current terminal</li>
+<li>Shift-Pagedown: Scroll forward through the current terminal</li>
+</ul>
+
+
+<p>I decided to change the colorscheme to Solarized from Ethan Schoonover.</p>
+
+<p><img src="http://ethanschoonover.com/solarized/img/solarized-yinyang.png" height="217px" width="217px" /></p>
+
+<p><a href="https://github.com/ashleyblackmore/terminator-solarized">Here</a> is the github repo with the config file for Terminator.</p>
+
+<h2>Vim</h2>
+
+<p><code>bash
+$sudo vim /etc/vim/vimrc
+</code></p>
+
+<p>And uncomment 'syntax on'.</p>
+
+<p>Next install <a href="https://github.com/tpope/vim-pathogen">Pathogen</a>:</p>
+
+<p>```bash</p>
+
+<h2>copy and paste this in the terminal:</h2>
+
+<p>mkdir -p ~/.vim/autoload ~/.vim/bundle; \
+curl -Sso ~/.vim/autoload/pathogen.vim \</p>
+
+<pre><code>https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
+</code></pre>
+
+<p>```</p>
+
+<p>Now install <a href="http://ethanschoonover.com/">Solarized</a> for Vim:</p>
+
+<p>```bash</p>
+
+<pre><code>$ cd ~/.vim/bundle
+$ git clone git://github.com/altercation/vim-colors-solarized.git
+</code></pre>
+
+<p>```</p>
+
+<p>And install <a href="https://github.com/scrooloose/nerdtree">NERDTree</a></p>
+
+<p><code>bash
+cd ~/.vim/bundle
+git clone https://github.com/scrooloose/nerdtree.git
+</code></p>
+
+<p>Now go ahead and creat a .vimrc:</p>
+
+<p><code>bash
+$vim ~/.vimrc
+</code></p>
+
+<p>Copy this in the .vimrc.
+This will set a statusline and line numbers.
+It activates pathogen and sets the colorscheme:</p>
+
+<p><code>bash vimrc
+set statusline=%&lt;%F%h%m%r%h%w%y\ %{&amp;ff}\ %{strftime(\"%c\",getftime(expand(\"%:p\")))}%=\ lin:%l\,%L\ col:%c%V\ pos:%o\ ascii:%b\ %P
+set laststatus=2
+set number
+execute pathogen#infect()
+syntax enable
+set background=light
+colorscheme solarized
+</code></p>
+
+<p>And the result will be this:</p>
+
+<p><img src="/images/vim.png" title="vim" alt="vim" /></p>
+
+<p>You can also choose the solarized-dark, but I think the light version is easier on the eye.
+Now you can go coding, be mighty productive and make lots of money. Or not.:)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu Gnome]]></title>
+    <link href="http://jacqinthebox.github.io/blog/2013/05/10/hyper-v-and-ubuntu/"/>
+    <updated>2013-05-10T14:04:00+02:00</updated>
+    <id>http://jacqinthebox.github.io/blog/2013/05/10/hyper-v-and-ubuntu</id>
+    <content type="html"><![CDATA[<p>There is a version of Ubuntu that has Gnome 3 as desktop manager. I prepared a box for updating my Octopress blog.</p>
+
+<p>Here is how.</p>
+
+<p>``` bash complete transcript</p>
+
+<h1>install RVM</h1>
+
+<p>sudo apt-get install curl
+\curl -L https://get.rvm.io | bash -s stable
+source ~/.rvm/scripts/rvm
+rvm requirements
+rvm install 1.9.3
+rvm use 1.9.3 --default</p>
+
+<h1>install rubygems and rails</h1>
+
+<p>rvm rubygems current
+gem install rails --no-rdoc --no-ri</p>
+
+<h1>install git and heroku</h1>
+
+<p>sudo apt-get install git
+wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh</p>
+
+<h1>create keys:</h1>
+
+<p>ssh-keygen -t rsa
+heroku keys:add
+heroku login</p>
+
+<h1>clone the Octopress site from Heroku (or a new one from the Octopress site)</h1>
+
+<p>git clone git@heroku.com:enig-savan-2778.git
+gem install bundler
+sudo apt-get install rbenv
+rbenv rehash  <br/>
+bundle install</p>
+
+<h1>install Sublime Text</h1>
+
+<p>sudo add-apt-repository ppa:webupd8team/sublime-text-2
+sudo apt-get install sublime-text-2</p>
+
+<h1>add your info to Git</h1>
+
+<p>git config --global user.name "Jacqueline"
+git config --global user.email "jacqueline@linux02"</p>
+
+<p>```</p>
+
+<p>By the way, install 1.9.3 wit RVM doesn't work with Debian Jessie (yet, however 2.0.0 works fine).If you are like me and you don't do Rails development, you can install the Octopress requisites on Jessie like so:</p>
+
+<p><code>
+sudo apt-get install ruby ruby-dev rbenv
+sudo gem install bundler
+</code>
+So, in this case  it is actually convenient that Debian never uses the latest version of sofware.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Peppermint OS]]></title>
+    <link href="http://jacqinthebox.github.io/blog/2013/05/05/peppermint-os/"/>
+    <updated>2013-05-05T11:03:00+02:00</updated>
+    <id>http://jacqinthebox.github.io/blog/2013/05/05/peppermint-os</id>
+    <content type="html"><![CDATA[<p><a href="http://peppermintos.com">Peppermint OS</a> is a minimal Linux distribution based on Ubuntu. Its desktop manager is OpenBox. So why did I choose this distribution? Well, it is the only one that does not crash in Vmware Workstation 9 on Windows 8.</p>
+
+<p><img src="http://wiki.lxde.org/en/images/3/36/Peppermint_logo.png" alt="Peppermint logo" /></p>
+]]></content>
+  </entry>
+  
+</feed>

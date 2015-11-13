@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Node | Weblog van Jacqueline P.]]></title>
+  <link href="http://jacqinthebox.github.io/blog/categories/node/atom.xml" rel="self"/>
+  <link href="http://jacqinthebox.github.io/"/>
+  <updated>2015-11-13T13:01:08+01:00</updated>
+  <id>http://jacqinthebox.github.io/</id>
+  <author>
+    <name><![CDATA[Jacqueline]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[fun with Node]]></title>
+    <link href="http://jacqinthebox.github.io/blog/2013/11/21/fun-with-node/"/>
+    <updated>2013-11-21T22:35:00+01:00</updated>
+    <id>http://jacqinthebox.github.io/blog/2013/11/21/fun-with-node</id>
+    <content type="html"><![CDATA[<p>Now I'm starting to have fun with Nodejs.
+This is because the excellent tutorials from <a href="http://nodetuts.com/">Node tuts</a> and because WebStorm is awesome.</p>
+
+<p>Here is a first line of javascript:</p>
+
+<p><code>javascript hello.js
+console.log('behold, the pizza is in the oven.');
+</code>
+Let's run it with Node:</p>
+
+<p>```bash node
+$ node hello.js
+behold, the pizza is in the oven.</p>
+
+<p>```</p>
+
+<p>Why is this even cool?
+We just ran javascript without a browser, on a server.</p>
+
+<h3>Blocking vs non-blocking</h3>
+
+<p>This is an example of blocking code:</p>
+
+<p><code>javascript read_file.js
+var fs = require('fs');
+var contents = fs.readFileSync('/etc/hosts');
+console.log(contents);
+console.log('Now on to the next function');
+</code>
+This will run line by line, and all other processes are blocked until its finished.</p>
+
+<p>With Node, we should be writing non blocking code, like this:</p>
+
+<p>```javascript read_file.js
+var fs = require('fs');
+fs.readFileSync('/etc/hosts', function(error,contents) {
+console.log(contents);
+}</p>
+
+<p>console.log('Now on to the next function');
+```
+The readFileSync accepts two parameters, the file to read and another function: the callback function.
+The callback function has 2 parameters, one that contains the error (if there is one) and one that contains the result.</p>
+
+<p>We can also write the function like this:</p>
+
+<p>```javascript read_file.js
+var fs = require('fs');</p>
+
+<p>//a callback function returns the result, asynchronuously.
+//a callback function always has 2 parameters, first is the error and the second is the result
+function callback(err, results) {</p>
+
+<pre><code>if (err) return handleError(err);
+console.log(results);
+</code></pre>
+
+<p>}</p>
+
+<p>//in node, in third party libraries, the last parameter from a function is the callback.
+fs.readFile('/etc/host', 'utf-8', callback);</p>
+
+<p>//we can read a second file. This would run in parallel, it's non-blocking!
+fs.readFile('/etc/vim/vimrc', 'utf-8', callback);</p>
+
+<p>```</p>
+
+<p>I think it's more readable to add the callback function as a parameter and then we can omit 'callback' and use an anonymous function:</p>
+
+<p>```javascript read_file.js
+//the callback function is the last argument
+//the callback function always has 2 arguments, error and results.
+fs.readFile('/etc/hostst', 'utf-8', function (err, results) {</p>
+
+<pre><code>    if (err) return handleError(err);
+    console.log(results);
+}
+</code></pre>
+
+<p>);</p>
+
+<p>```
+So this is the essence of Nodejs:</p>
+
+<ul>
+<li>stop writing threads and other procedural blocking code</li>
+<li>start writing asynchronous code</li>
+<li>in a third party lib the last parameter is the callback</li>
+<li>in a callback function the first parameter is the error, the second parameter is the result.</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

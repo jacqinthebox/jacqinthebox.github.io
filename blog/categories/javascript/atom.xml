@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: javascript | Weblog van Jacqueline P.]]></title>
+  <link href="http://jacqinthebox.github.io/blog/categories/javascript/atom.xml" rel="self"/>
+  <link href="http://jacqinthebox.github.io/"/>
+  <updated>2015-11-13T13:01:08+01:00</updated>
+  <id>http://jacqinthebox.github.io/</id>
+  <author>
+    <name><![CDATA[Jacqueline]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[a Node HTTP server]]></title>
+    <link href="http://jacqinthebox.github.io/blog/2013/11/22/a-node-http-server/"/>
+    <updated>2013-11-22T21:16:00+01:00</updated>
+    <id>http://jacqinthebox.github.io/blog/2013/11/22/a-node-http-server</id>
+    <content type="html"><![CDATA[<p>Just like c# (which is my first language), you can import libraries with Node. They're called modules.
+One of these modules is 'http'. Let's see how we can create a http server with this module.</p>
+
+<p>```javascript hellopizza.js
+var http = require('http');</p>
+
+<p>//the http module has a function: createServer which takes a callback as a parameter:</p>
+
+<p>http.createServer(function(request,response) {</p>
+
+<pre><code>   response.writeHead('200');
+   response.write("one pepperoni pizza please");
+   response.end();
+
+}).listen(8080);
+</code></pre>
+
+<p>console.log("listening on 8080");</p>
+
+<p>```</p>
+
+<p>We can run this with node:</p>
+
+<p><code>bash
+jacqueline:public$ node hellopizza.js
+listening on 8080
+</code>
+Browse to the page with curl:</p>
+
+<p><code>bash curl
+jacqueline:$ curl localhost:8080
+one pepperoni pizza please
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>
