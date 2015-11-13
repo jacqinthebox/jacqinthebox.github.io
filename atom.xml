@@ -4,7 +4,7 @@
   <title><![CDATA[Weblog van Jacqueline P.]]></title>
   <link href="http://jacqinthebox.github.io/atom.xml" rel="self"/>
   <link href="http://jacqinthebox.github.io/"/>
-  <updated>2015-11-13T13:14:24+01:00</updated>
+  <updated>2015-11-13T23:37:42+01:00</updated>
   <id>http://jacqinthebox.github.io/</id>
   <author>
     <name><![CDATA[Jacqueline]]></name>
@@ -18,7 +18,16 @@
     <link href="http://jacqinthebox.github.io/blog/2015/11/13/vagrant-tips-for-windows-users/"/>
     <updated>2015-11-13T11:01:00+01:00</updated>
     <id>http://jacqinthebox.github.io/blog/2015/11/13/vagrant-tips-for-windows-users</id>
-    <content type="html"><![CDATA[<h2>Moving the Vagrant home folder to another disk</h2>
+    <content type="html"><![CDATA[<p>Here are some tips to improve the day-to-day Vagrant tasks on a Windows machine.</p>
+
+<ul>
+<li>Saving diskspace</li>
+<li>Using a better terminal</li>
+<li>Using a better text editor</li>
+</ul>
+
+
+<h2>Moving the Vagrant home folder to another disk</h2>
 
 <p>Vagrant puts its boxes by default in your home directory (~/.vagrant.d). But it can fill up diskspace really quickly. Especially if you are creating Windows VM&#8217;s. So what you want to do is edit the VAGRANT_HOME variable and give it a value which suits your needs (to a cheaper or bigger disk):</p>
 
