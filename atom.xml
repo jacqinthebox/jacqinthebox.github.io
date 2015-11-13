@@ -4,7 +4,7 @@
   <title><![CDATA[Weblog van Jacqueline P.]]></title>
   <link href="http://jacqinthebox.github.io/atom.xml" rel="self"/>
   <link href="http://jacqinthebox.github.io/"/>
-  <updated>2015-11-13T13:01:08+01:00</updated>
+  <updated>2015-11-13T13:14:24+01:00</updated>
   <id>http://jacqinthebox.github.io/</id>
   <author>
     <name><![CDATA[Jacqueline]]></name>
@@ -47,6 +47,8 @@
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>brackets Vagrantfile
 </span></code></pre></td></tr></table></div></figure>
 
+
+<p>Now you can work from the terminal with Brackets instead of juggling with Notepad instances.</p>
 
 <p><img src="http://jacqinthebox.github.io/images/brackerts-vagrant.png" title="brackets" alt="brackets" />]</p>
 ]]></content>

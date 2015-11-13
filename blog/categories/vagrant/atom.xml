@@ -4,7 +4,7 @@
   <title><![CDATA[Category: vagrant | Weblog van Jacqueline P.]]></title>
   <link href="http://jacqinthebox.github.io/blog/categories/vagrant/atom.xml" rel="self"/>
   <link href="http://jacqinthebox.github.io/"/>
-  <updated>2015-11-13T13:01:08+01:00</updated>
+  <updated>2015-11-13T13:14:24+01:00</updated>
   <id>http://jacqinthebox.github.io/</id>
   <author>
     <name><![CDATA[Jacqueline]]></name>
@@ -40,8 +40,11 @@ Now you can go to Cmder, cd to you vagrant machine folder and type:</p>
 
 <p><code>bash
 brackets Vagrantfile
-</code>
-<img src="/images/brackerts-vagrant.png" title="brackets" alt="brackets" />]</p>
+</code></p>
+
+<p>Now you can work from the terminal with Brackets instead of juggling with Notepad instances.</p>
+
+<p><img src="/images/brackerts-vagrant.png" title="brackets" alt="brackets" />]</p>
 ]]></content>
   </entry>
   
