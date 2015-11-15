@@ -4,7 +4,7 @@
   <title><![CDATA[Category: vagrant | Weblog van Jacqueline P.]]></title>
   <link href="http://jacqinthebox.github.io/blog/categories/vagrant/atom.xml" rel="self"/>
   <link href="http://jacqinthebox.github.io/"/>
-  <updated>2015-11-15T15:59:38+01:00</updated>
+  <updated>2015-11-15T16:03:15+01:00</updated>
   <id>http://jacqinthebox.github.io/</id>
   <author>
     <name><![CDATA[Jacqueline]]></name>
@@ -53,14 +53,16 @@ subl Vagrantfile
 
 <p>Now you can work from the terminal with Sublime instead of juggling with Notepad instances.</p>
 
-<p><img src="/images/brackerts-vagrant.png" title="brackets" alt="brackets" />]</p>
-
 <h2>Add Powershell syntax colors to Sublime text</h2>
 
-<p>In Sublime Text:
-* Press Ctrl + Shift + P
-* Select 'Install Package'
-* Select 'PowerShell'</p>
+<p>In Sublime Text:</p>
+
+<ul>
+<li>Press Ctrl + Shift + P</li>
+<li>Select 'Install Package'</li>
+<li>Select 'PowerShell'</li>
+</ul>
+
 ]]></content>
   </entry>
   
