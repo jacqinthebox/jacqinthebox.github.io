@@ -119,7 +119,7 @@ Using a better text editor &hellip;">
 
 <h2>Moving the Vagrant home folder to another disk</h2>
 
-<p>Vagrant puts its boxes by default in your home directory (~/.vagrant.d). But it can fill up diskspace really quickly. Especially if you are creating Windows VM&#8217;s. So what you want to do is edit the VAGRANT_HOME variable and give it a value which suits your needs (to a cheaper or bigger disk):</p>
+<p>Vagrant puts its boxes by default in your home directory (~/.vagrant.d). But it can fill up diskspace really quickly. Especially if you are creating Windows VM&#8217;s. So what you want to do is edit the VAGRANT_HOME variable and give it a value which suits your needs (to a cheaper or bigger disk). Here&#8217;s the Powershell command:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='powershell'><span class='line'><span class="no">[Environment]</span><span class="err">::</span><span class="n">SetEnvironmentVariable</span><span class="p">(</span><span class="s2">&quot;VAGRANT_HOME&quot;</span><span class="p">,</span> <span class="s2">&quot;D:\vagrant_home&quot;</span><span class="p">,</span> <span class="s2">&quot;User&quot;</span><span class="p">)</span>
@@ -131,25 +131,32 @@ Using a better text editor &hellip;">
 <p>OK. Microsoft is trying but they will never succeed to overrule the power of a Linux terminal and commandline. But with <a href="http://cmder.net/">Cmder</a> you can simulate the Linux experience rather decently. And if you decide to use the slightly bigger msysgit version of Cmder, you will have all Unix commands ready in PATH so that you can git init or cat instantly on every machine. Yay!
 <img src="http://cmder.net/img/git_thumb.png" alt="git" /></p>
 
-<h2>Using Brackets to edit the Vagrantfile</h2>
+<h2>Using Sublime to edit the Vagrantfile</h2>
 
-<p>I love Brackets as a text editor. Install it with Chocolatey and then add the brackets.exe command to your path!</p>
+<p>I love <a href="http://www.sublimetext.com/">Sublime</a> as a text editor. Install it with Chocolatey and then add subl.exe command to your path. Here&#8217;s (again) a way to do that with Powershell:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='powershell'><span class='line'><span class="no">[Environment]</span><span class="err">::</span><span class="n">SetEnvironmentVariable</span><span class="p">(</span><span class="s2">&quot;Path&quot;</span><span class="p">,</span> <span class="nv">$env:Path</span> <span class="p">+</span> <span class="s2">&quot;;%ProgramFiles(x86)%\Brackets\command&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">EnvironmentVariableTartget</span><span class="err">::</span><span class="n">Machine</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='powershell'><span class='line'><span class="no">[Environment]</span><span class="err">::</span><span class="n">SetEnvironmentVariable</span><span class="p">(</span><span class="s2">&quot;Path&quot;</span><span class="p">,</span> <span class="nv">$env:Path</span> <span class="p">+</span> <span class="s2">&quot;;%ProgramFiles%\Sublime Text 3&quot;</span><span class="p">,</span> <span class="no">[System.EnvironmentVariableTarget]</span><span class="err">::</span><span class="n">Machine</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>Now you can go to Cmder, cd to you vagrant machine folder and type:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>brackets Vagrantfile
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>subl Vagrantfile
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Now you can work from the terminal with Brackets instead of juggling with Notepad instances.</p>
+<p>Now you can work from the terminal with Sublime instead of juggling with Notepad instances.</p>
 
 <p><img src="/images/brackerts-vagrant.png" title="brackets" alt="brackets" />]</p>
+
+<h2>Add Powershell syntax colors to Sublime text</h2>
+
+<p>In Sublime Text:
+* Press Ctrl + Shift + P
+* Select &#8216;Install Package&#8217;
+* Select &#8216;PowerShell&#8217;</p>
 </div>
   
   
